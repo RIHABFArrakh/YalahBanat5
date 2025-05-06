@@ -1,0 +1,5 @@
+/* Add any custom styles here */
+:host {
+  display: block;
+  width: 100%;
+}
