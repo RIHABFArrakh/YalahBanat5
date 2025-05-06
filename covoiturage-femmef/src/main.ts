@@ -10,5 +10,4 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptors([])),
     provideRouter(routes),
   ]
-});
-
+}); 

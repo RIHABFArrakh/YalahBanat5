@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from './guards/role.guard';  // ✅ Avec un "s" à guards
+import { ReservationPageComponent } from './features/reservation/reservation-page/reservation-page.component';
+
 
 export const routes: Routes = [
   {
@@ -21,4 +24,16 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/passager/passager.routes').then(m => m.PASSAGER_ROUTES),
   },
+  {
+    path: 'dashboard-conductrice',
+    loadComponent: () =>
+      import('./features/conductrice/conductrice-dashboard/conductrice-dashboard.component')
+        .then(m => m.ConductriceDashboardComponent),
+    canActivate: [roleGuard],
+    data: { expectedRole: 'conductrice' }
+  },
+  {
+    path: 'reservation/:id',
+    component: ReservationPageComponent
+  }
 ];
