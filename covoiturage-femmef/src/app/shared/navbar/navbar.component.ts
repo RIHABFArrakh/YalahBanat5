@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate } from '@angular/animations';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  imports:[RouterModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   animations: [

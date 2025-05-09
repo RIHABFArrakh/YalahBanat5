@@ -23,4 +23,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/passager/passager.routes').then(m => m.PASSAGER_ROUTES),
   },
+  {
+    path: 'recherche',
+    loadChildren: () =>
+      import('./pages/recherche/recherche.module').then(m => m.RechercheModule),
+  },
 ];
