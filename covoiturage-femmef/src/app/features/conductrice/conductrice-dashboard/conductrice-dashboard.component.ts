@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { VoyageService, Voyage } from '../../../core/services/voyage.service';
+import { VoyageService, Voyage, VoyageDto } from '../../../core/services/voyage.service';
 import { ReservationService, Reservation } from '../../../core/services/reservation.service';
 
 interface User {
@@ -18,21 +19,23 @@ interface User {
 interface VoyageForm {
   depart: string;
   destination: string;
-  date_heure: string;
-  places_disponibles: number;
+  dateHeure: string;
+  placesDisponibles: number;
   price: number;
 }
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FormsModule],
+  imports: [CommonModule, NavbarComponent, FormsModule,RouterModule],
   templateUrl: './conductrice-dashboard.component.html',
   styleUrls: ['./conductrice-dashboard.component.css']
 })
 export class ConductriceDashboardComponent implements OnInit {
+  user: any; 
   userName = '';
   userRole = '';
+  nomConductrice: string = '';
   totalTrips = 0;
   tripsThisMonth = 0;
   generatedRevenue = 0;
@@ -49,8 +52,8 @@ export class ConductriceDashboardComponent implements OnInit {
   voyageForm: VoyageForm = {
     depart: '',
     destination: '',
-    date_heure: '',
-    places_disponibles: 1,
+    dateHeure: '',
+    placesDisponibles: 1,
     price: 0
   };
 
@@ -70,28 +73,22 @@ export class ConductriceDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Get user data from AuthService
+    const conductriceId = localStorage.getItem('conductriceId');
+    if (conductriceId && Number(conductriceId) !== 0) {
+      this.loadVoyagesByConductrice(Number(conductriceId));
+    } else {
+      console.error('ID de conductrice invalide ou non défini dans le localStorage.');
+      alert('L\'ID de la conductrice est invalide. Veuillez vous reconnecter.');
+      this.router.navigate(['/login']); 
+    }
+
+    this.nomConductrice = this.authService.getCurrentUser()?.name || 'Conductrice';
+
     this.authService.currentUser$.subscribe((user: User | null) => {
       if (user) {
         this.userName = user.name || 'Utilisateur';
         this.userRole = user.role || '';
-        // Load reservation history for the user
-        this.loadReservationHistory(user.id);
       }
-    });
-
-    this.userService.getDashboardData().subscribe((data: any) => {
-      this.totalTrips = data.totalTrips;
-      this.tripsThisMonth = data.tripsThisMonth;
-      this.generatedRevenue = data.generatedRevenue;
-      this.averageRating = data.averageRating;
-      this.totalRatings = data.totalRatings;
-      this.co2Saved = data.co2Saved;
-      this.treesEquivalent = data.treesEquivalent;
-    });
-
-    // Subscribe to voyages updates
-    this.voyageService.voyages$.subscribe(voyages => {
-      this.voyages = voyages;
     });
   }
 
@@ -120,30 +117,47 @@ export class ConductriceDashboardComponent implements OnInit {
     this.voyageForm = {
       depart: '',
       destination: '',
-      date_heure: '',
-      places_disponibles: 1,
+      dateHeure: '',
+      placesDisponibles: 1,
       price: 0
     };
   }
 
   onSubmit() {
-    if (this.voyageForm.depart && this.voyageForm.destination && this.voyageForm.date_heure) {
-      const voyageData: Voyage = {
+    const conductriceId = localStorage.getItem('conductriceId');
+    if (!conductriceId || Number(conductriceId) === 0) {
+      alert('ID de la conductrice invalide');
+      return;
+    }
+
+    if (this.voyageForm.depart && this.voyageForm.destination && this.voyageForm.dateHeure) {
+      const voyageData: VoyageDto = {
         depart: this.voyageForm.depart,
         destination: this.voyageForm.destination,
-        dateHeure: this.voyageForm.date_heure,
-        placesDisponibles: this.voyageForm.places_disponibles,
+        dateHeure: this.voyageForm.dateHeure,
+        placesDisponibles: this.voyageForm.placesDisponibles,
         price: this.voyageForm.price,
-        conductriceId: 1 // This should be replaced with the actual conductrice ID
+        conductriceId: Number(conductriceId) // Ensure valid conductrice ID is sent
       };
+
+      console.log('Données envoyées au backend :', voyageData); // Affiche les données envoyées
 
       this.voyageService.createVoyage(voyageData).subscribe({
         next: (res) => {
+          // Ajouter le nouveau voyage à la liste
           this.voyageService.addVoyageToList(res);
+          // Rafraîchir la liste des voyages
+          this.loadVoyagesByConductrice(Number(conductriceId));
           this.closeModal();
+          this.resetForm();
         },
         error: (err) => {
-          console.error('Error creating voyage:', err);
+          console.error('Erreur lors de la création du voyage:', err);
+          if (err.error && err.error.message) {
+            alert('Erreur de création : ' + err.error.message);  // Afficher un message d'erreur détaillé
+          } else {
+            alert('Erreur inconnue lors de la création du voyage');
+          }
         }
       });
     }
@@ -159,5 +173,34 @@ export class ConductriceDashboardComponent implements OnInit {
 
   openReservationModal(voyageId: number) {
     this.router.navigate(['/reservation', voyageId]);
+  }
+
+  editVoyage(voyageId: number) {
+    // TODO: Implement edit functionality
+    console.log('Edit voyage:', voyageId);
+  }
+
+  deleteVoyage(voyageId: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce voyage ?')) {
+      this.voyageService.deleteVoyage(voyageId).subscribe({
+        next: () => {
+          // Supprimer le voyage de la liste locale
+          this.voyages = this.voyages.filter(v => v.id !== voyageId);
+          // Afficher une alerte de succès
+          alert('Voyage supprimé avec succès !');
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression du voyage :', error);
+          alert('Une erreur est survenue lors de la suppression.');
+        }
+      });
+    }
+  }
+
+  loadVoyagesByConductrice(conductriceId: number) {
+    this.voyageService.getVoyagesByConductrice(conductriceId).subscribe((voyages) => {
+      console.log(voyages);
+      this.voyages = voyages;
+    });
   }
 }

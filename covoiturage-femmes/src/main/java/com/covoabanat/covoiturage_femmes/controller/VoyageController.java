@@ -46,6 +46,11 @@ public class VoyageController {
         return ResponseEntity.ok(voyageService.listerVoyages());
     }
 
+    @GetMapping("/conductrice/{conductriceId}")
+    public ResponseEntity<List<Voyage>> listerVoyagesParConductrice(@PathVariable Long conductriceId) {
+        return ResponseEntity.ok(voyageService.listerVoyagesParConductrice(conductriceId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Voyage> obtenirVoyageParId(@PathVariable Long id) {
         return voyageService.obtenirVoyageParId(id)

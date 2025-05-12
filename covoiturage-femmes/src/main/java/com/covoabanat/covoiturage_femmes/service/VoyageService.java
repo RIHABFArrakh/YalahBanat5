@@ -29,4 +29,8 @@ public class VoyageService {
     public void supprimerVoyage(Long id) {
         voyageRepository.deleteById(id);
     }
+
+    public List<Voyage> listerVoyagesParConductrice(Long conductriceId) {
+        return voyageRepository.findByConductriceId(conductriceId);
+    }
 }

@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
-import { roleGuard } from './guards/role.guard';  // ✅ Avec un "s" à guards
+import { roleGuard } from './guards/role.guard';
 import { ReservationPageComponent } from './features/reservation/reservation-page/reservation-page.component';
-
+import { FinancesComponent} from './finances/finances.component'
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./features/public/landing-page/landing-page.component').then(m => m.LandingPageComponent),
+      import('./features/public/landing-page/landing-page.component').then(
+        (m) => m.LandingPageComponent
+      ),
   },
   {
     path: 'auth',
@@ -35,5 +37,11 @@ export const routes: Routes = [
   {
     path: 'reservation/:id',
     component: ReservationPageComponent
+  },
+  {
+    path: 'finances', // ✅ Route ajoutée
+    component: FinancesComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'conductrice' }
   }
 ];

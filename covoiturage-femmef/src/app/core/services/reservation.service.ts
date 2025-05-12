@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -30,12 +30,18 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getReservationHistory(passagerId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/historique/${passagerId}`);
+    return this.http.get<Reservation[]>(`${this.apiUrl}/historique/${passagerId}`, { headers: this.getHeaders() });
   }
 
   createReservation(voyageId: number, passagerId: number, nombrePlaces: number): Observable<Reservation> {
     return this.http.post<Reservation>(`${this.apiUrl}/voyage/${voyageId}/passager/${passagerId}`, null, {
+      headers: this.getHeaders(),
       params: { nombrePlaces: nombrePlaces.toString() }
     });
   }

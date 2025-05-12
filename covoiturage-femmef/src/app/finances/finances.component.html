@@ -1,0 +1,48 @@
+<div class="p-8 bg-gray-50 min-h-screen text-gray-900">
+    <!-- Titre -->
+    <div class="mb-6">
+      <div class="flex items-center space-x-2">
+        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 10h18M5 6h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" />
+        </svg>
+        <h1 class="text-2xl font-semibold">Finances</h1>
+      </div>
+      <p class="text-sm text-gray-500 mt-1">Gérez vos revenus et vos relevés de paiement</p>
+    </div>
+  
+    <!-- Affichage du solde actuel -->
+    <div class="col-span-2 bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-medium flex items-center gap-2">
+        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 10h18M5 6h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" />
+        </svg>
+        Votre solde
+      </h2>
+      <p class="text-sm text-gray-400">Aperçu de votre solde actuel et des paiements à venir</p>
+  
+      <div class="mt-6 grid grid-cols-2 gap-6">
+        <!-- Solde actuel -->
+        <div>
+          <p class="text-gray-500 text-sm">Solde actuel</p>
+          <p class="text-3xl font-bold">{{ formatNumber(soldeActuel) }} €</p>
+          <p class="text-sm text-gray-400 mt-1">disponible</p>
+          <button class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-full text-sm" (click)="retirerFonds()">
+            Retirer mes fonds
+          </button>
+        </div>
+  
+        <!-- Paiements en attente -->
+        <div>
+          <p class="text-gray-500 text-sm">Paiements en attente</p>
+          <p class="text-2xl font-bold">{{ formatNumber(paiementsEnAttente) }} €</p>
+          <p class="text-sm text-gray-400 mt-1">à venir</p>
+          <p class="text-sm text-gray-400 mt-1">Prochaine date de paiement: <strong>{{ prochaineDatePaiement }}</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

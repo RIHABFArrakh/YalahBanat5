@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { VoyageService, Voyage } from '../../../core/services/voyage.service';
+import { VoyageService, Voyage, VoyageDto } from '../../../core/services/voyage.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -16,7 +16,7 @@ export class AddVoyageComponent {
   form = this.fb.group({
     depart: ['', Validators.required],
     destination: ['', Validators.required],
-    dateHeure: ['', Validators.required],
+    dateDepart: ['', Validators.required],
     placesDisponibles: [1, [Validators.required, Validators.min(1)]],
     price: [0, [Validators.required, Validators.min(0)]],
     conductriceId: [0, Validators.required]
@@ -44,10 +44,10 @@ export class AddVoyageComponent {
   submit() {
     if (this.form.valid) {
       this.loading = true;
-      const voyageData: Voyage = {
+      const voyageData: VoyageDto = {
         depart: this.form.value.depart!,
         destination: this.form.value.destination!,
-        dateHeure: this.form.value.dateHeure!,
+        dateHeure: this.form.value.dateDepart!,
         placesDisponibles: this.form.value.placesDisponibles!,
         price: this.form.value.price!,
         conductriceId: this.form.value.conductriceId!
