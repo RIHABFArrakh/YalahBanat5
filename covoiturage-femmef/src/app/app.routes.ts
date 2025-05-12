@@ -43,5 +43,10 @@ export const routes: Routes = [
     component: FinancesComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'conductrice' }
-  }
+  },
+  {
+    path: 'recherche',
+    loadChildren: () =>
+      import('./pages/recherche/recherche.module').then(m => m.RechercheModule),
+  },
 ];
