@@ -16,9 +16,10 @@ export class ForgotPasswordComponent {
   constructor(private authService: AuthService) {}
 
   onSubmit() {
+    if (!this.email) return;
     this.authService.requestPasswordReset(this.email).subscribe({
-      next: () => alert('Check your email for reset instructions.'),
-      error: err => alert('Error: ' + err.message)
+      next: () => alert('Consultez votre email pour les instructions.'),
+      error: err => alert('Erreur : ' + (err.message || 'Une erreur est survenue'))
     });
   }
 }

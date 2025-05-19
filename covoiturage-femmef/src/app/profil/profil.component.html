@@ -1,6 +1,65 @@
-<div *ngIf="user">
-    <h2>Bonjour, {{ user.nom }} !</h2>
-    <p>Email : {{ user.email }}</p>
-    <!-- D'autres informations de profil ici -->
+<!-- profile.component.html -->
+<div class="bg-[rgb(255,250,255)] shadow-md rounded-2xl p-8 w-full max-w-3xl mx-auto">
+  <div class="mb-6 flex items-center gap-2 text-purple-600 text-xl font-semibold">
+    <i class="fas fa-user-circle"></i>
+    <h2>Informations personnelles</h2>
   </div>
-  
+
+  <!-- Passager -->
+  <div *ngIf="role === 'passager' && passager" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+    <div>
+      <p class="text-gray-400 font-semibold">Nom</p>
+      <p>{{ passager.nom }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Email</p>
+      <p><i class="fas fa-envelope mr-1 text-purple-500"></i>{{ passager.email }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Téléphone</p>
+      <p><i class="fas fa-phone-alt mr-1 text-purple-500"></i>{{ passager.telephone }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Ville</p>
+      <p><i class="fas fa-map-marker-alt mr-1 text-purple-500"></i>{{ passager.ville }}</p>
+    </div>
+    <div class="md:col-span-2">
+      <p class="text-gray-400 font-semibold">Bio</p>
+      <p>{{ passager.bio }}</p>
+    </div>
+    <div class="md:col-span-2 mt-4 text-sm text-gray-500">
+      <i class="far fa-calendar-alt mr-1 text-purple-500"></i> Membre depuis {{ passager.membershipDate | date: 'MMMM yyyy' }}
+    </div>
+  </div>
+
+  <!-- Conductrice -->
+  <div *ngIf="role === 'conductrice' && conductrice" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
+    <div>
+      <p class="text-gray-400 font-semibold">Nom</p>
+      <p>{{ conductrice.nom }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Email</p>
+      <p><i class="fas fa-envelope mr-1 text-purple-500"></i>{{ conductrice.email }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Téléphone</p>
+      <p><i class="fas fa-phone-alt mr-1 text-purple-500"></i>{{ conductrice.telephone }}</p>
+    </div>
+    <div>
+      <p class="text-gray-400 font-semibold">Ville</p>
+      <p><i class="fas fa-map-marker-alt mr-1 text-purple-500"></i>{{ conductrice.ville }}</p>
+    </div>
+    <div class="md:col-span-2">
+      <p class="text-gray-400 font-semibold">Bio</p>
+      <p>{{ conductrice.bio }}</p>
+    </div>
+    <div class="md:col-span-2 mt-4 text-sm text-gray-500">
+      <i class="far fa-calendar-alt mr-1 text-purple-500"></i> Membre depuis {{ conductrice.membershipDate | date: 'MMMM yyyy' }}
+    </div>
+  </div>
+</div>
+<button (click)="toggleDetails()"
+        class="w-full py-2 border border-purple-500 rounded-xl text-purple-600 font-semibold flex items-center justify-center gap-2 hover:bg-purple-50">
+  <i class="fas fa-user"></i> {{ showDetails ? 'Cacher le profil' : 'Voir mon profil' }}
+</button>

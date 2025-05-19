@@ -1,3 +1,6 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <div class="bg-[#fdfbff] min-h-screen px-10 py-6 font-sans">
   <!-- Welcome -->
   <div class="mb-6">
@@ -7,7 +10,8 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" />
           <circle cx="12" cy="10" r="4" stroke="currentColor" stroke-width="2" fill="none" />
         </svg>
-      </span> Bonjour, {{ userName }}!
+      </span>Bonjour, {{ userName }}
+
       <span class="ml-4 px-3 py-1 rounded-full text-sm font-semibold"
             [ngClass]="userRole === 'conductrice' ? 'bg-pink-100 text-pink-600' : 'bg-purple-100 text-purple-600'">
         {{ userRole | titlecase }}
@@ -55,75 +59,11 @@
     </div>
   </div>
 
-  <!-- Actions -->
-  <div>
-    <h2 class="text-xl font-semibold mb-4">Actions</h2>
-    <div class="flex gap-4">
-      <button class="bg-purple-500 text-white px-8 py-3 rounded-full flex items-center gap-2 hover:bg-purple-600 font-semibold text-lg">
-        <span class="text-xl">&#128269;</span> Rechercher un voyage
-      </button>
-      <button class="border border-purple-400 text-purple-600 px-8 py-3 rounded-full flex items-center gap-2 hover:bg-purple-50 font-semibold text-lg">
-        <span class="text-xl">&#128663;</span> Voir mes réservations
-      </button>
-    </div>
-  </div>
 
   <!-- Voyages disponibles et Historique des trajets Side by Side -->
   <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Voyages disponibles (col-span-2, left) -->
+    <!-- histrique voyage  (col-span-2, left) -->
     <div class="col-span-2 bg-white rounded-2xl shadow-md p-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-        <h2 class="text-2xl font-bold text-gray-800">Voyages disponibles</h2>
-        <div class="flex flex-col md:flex-row gap-4 items-center">
-          <input type="text" placeholder="Rechercher un voyage..." class="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200" />
-          <select class="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
-            <option value="">Tous les trajets</option>
-            <option value="à venir">À venir</option>
-            <option value="terminé">Terminé</option>
-          </select>
-        </div>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-left">
-          <thead>
-            <tr class="border-b">
-              <th class="py-2 px-4 text-gray-500 font-medium">Trajet</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Départ</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Arrivée</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Date</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Prix</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b hover:bg-gray-50">
-              <td class="py-3 px-4 text-gray-700 font-semibold">casablanca → marrakech</td>
-              <td class="py-3 px-4 text-gray-700">casavoyageur</td>
-              <td class="py-3 px-4 text-gray-700">jamaa el fna</td>
-              <td class="py-3 px-4 text-gray-700">20 avr. 2025</td>
-              <td class="py-3 px-4 text-gray-700">160dh</td>
-              <td class="py-3 px-4 flex gap-2">
-                <button class="bg-purple-100 text-purple-700 rounded-full p-2 hover:bg-purple-200" title="Voir"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
-                <button class="bg-green-100 text-green-700 rounded-full p-2 hover:bg-green-200" title="Réserver"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></button>
-              </td>
-            </tr>
-            <tr class="border-b hover:bg-gray-50">
-              <td class="py-3 px-4 text-gray-700 font-semibold">rabat → casablanca</td>
-              <td class="py-3 px-4 text-gray-700">hay riad</td>
-              <td class="py-3 px-4 text-gray-700">ouasis</td>
-              <td class="py-3 px-4 text-gray-700">10 avr. 2025</td>
-              <td class="py-3 px-4 text-gray-700">60dh</td>
-              <td class="py-3 px-4 flex gap-2">
-                <button class="bg-purple-100 text-purple-700 rounded-full p-2 hover:bg-purple-200" title="Voir"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
-                <button class="bg-green-100 text-green-700 rounded-full p-2 hover:bg-green-200" title="Réserver"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <!-- Historique des trajets (col-span-1, right) -->
-    <div class="col-span-1 bg-white rounded-2xl shadow-md p-8">
       <div class="flex items-center mb-2">
         <svg class="h-6 w-6 text-purple-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2h5m2-4V4a2 2 0 012-2h2a2 2 0 012 2v12m-6 0h6"/></svg>
         <h3 class="text-2xl font-bold text-gray-800">Historique des trajets</h3>
@@ -135,38 +75,148 @@
             <tr class="border-b">
               <th class="py-2 px-4 text-gray-500 font-medium">Trajet</th>
               <th class="py-2 px-4 text-gray-500 font-medium">Date</th>
-              <th class="py-2 px-4 text-gray-500 font-medium">Distance</th>
+              <th class="py-2 px-4 text-gray-500 font-medium">Places</th>
               <th class="py-2 px-4 text-gray-500 font-medium">Prix</th>
+              <th class="py-2 px-4 text-gray-500 font-medium">Statut</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b">
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243M15 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4"/></svg>casablanca → rabat</td>
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 20 avr. 2025</td>
-              <td class="py-3 px-4 text-gray-700">465 km</td>
-              <td class="py-3 px-4 text-gray-700">250 dh</td>
+            <tr *ngFor="let reservation of reservationHistory" class="border-b">
+              <td class="py-3 px-4 flex items-center gap-2 text-gray-700">
+                <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243M15 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4"/>
+                </svg>
+                {{reservation.voyage?.depart}} → {{reservation.voyage?.destination}}
+              </td>
+              <td class="py-3 px-4 flex items-center gap-2 text-gray-700">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{reservation.voyage?.dateDepart | date:'dd MMM yyyy HH:mm'}}
+              </td>
+              <td class="py-3 px-4 text-gray-700">{{reservation.nombrePlaces}}</td>
+              <td class="py-3 px-4 text-gray-700">{{reservation.voyage?.prix}} DH</td>
+              <td class="py-3 px-4">
+                <span [ngClass]="{
+                  'px-2 py-1 rounded-full text-xs font-semibold': true,
+                  'bg-green-100 text-green-600': reservation.statut === 'CONFIRMEE',
+                  'bg-yellow-100 text-yellow-600': reservation.statut === 'EN_ATTENTE',
+                  'bg-red-100 text-red-600': reservation.statut === 'ANNULEE'
+                }">
+                  {{reservation.statut}}
+                </span>
+              </td>
             </tr>
-            <tr class="border-b">
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243M15 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4"/></svg> tanger → casablanca</td>
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 26 mars 2025</td>
-              <td class="py-3 px-4 text-gray-700">380 km</td>
-              <td class="py-3 px-4 text-gray-700">150 dh</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243M15 11V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4"/></svg> casablanca → dakhla</td>
-              <td class="py-3 px-4 flex items-center gap-2 text-gray-700"><svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 6 mars 2025</td>
-              <td class="py-3 px-4 text-gray-700">110 km</td>
-              <td class="py-3 px-4 text-gray-700">800 dh</td>
+            <tr *ngIf="reservationHistory.length === 0">
+              <td colspan="5" class="py-4 px-4 text-center text-gray-500">
+                Aucune réservation trouvée
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+      
+   
+    <!-- profil -->
+  <!-- Profil -->
+<div class="bg-[rgb(255,250,255)] shadow-md rounded-2xl p-8 w-full max-w-sm mx-auto">
+  <!-- Header -->
+  <div class="text-gray-700 text-sm mb-4 flex items-center space-x-2">
+    <span class="text-purple-600">
+      <i class="fas fa-user"></i>
+    </span>
+    <span class="font-semibold">Mon Profil</span>
   </div>
+  <p class="text-gray-400 text-sm mb-6">Votre profil et préférences</p>
 
-  <!-- Mon Profil (full width below) -->
-  <div class="mt-10 bg-white rounded-2xl shadow-md p-8 flex flex-col items-center">
-    <!-- Mon Profil content here (as before) -->
-    <!-- ... -->
+  <!-- Avatar + Infos -->
+  <div class="flex flex-col items-center">
+    <div
+      class="bg-gradient-to-r from-purple-400 to-pink-400 text-white w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mb-3"
+    >
+      P
+    </div>
+    <h2 class="text-xl font-semibold flex items-center gap-2">
+      <i class="fas fa-id-badge text-purple-600"></i> {{ passager?.nom }}
+    </h2>
+    <p class="text-sm text-gray-500 flex items-center gap-1 mt-1">
+      <i class="far fa-calendar-alt"></i> Membre depuis
+      {{ passager?.membershipDate | date: 'MMMM yyyy' }}
+    </p>
+
+    <!-- Bouton pour ouvrir la modale -->
+    <button
+      (click)="toggleDetails()"
+      class="w-full max-w-xs mx-auto py-3 border-2 border-purple-600 rounded-xl text-purple-700 font-semibold flex items-center justify-center gap-3 hover:bg-purple-100 transition duration-300 shadow-sm mt-6"
+    >
+      <i class="fas fa-user-circle text-2xl"></i>
+      <span>Voir mon profil</span>
+    </button>
+
+    <!-- Stars moved to bottom -->
+    <div class="flex mt-6 text-yellow-400 text-lg">
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="far fa-star"></i>
+    </div>
   </div>
 </div>
+
+<!-- Modale -->
+<div
+  *ngIf="showDetails"
+  class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+>
+  <div
+    class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 relative"
+  >
+    <!-- Bouton Fermer -->
+    <button
+      (click)="toggleDetails()"
+      aria-label="Fermer la modale"
+      class="absolute top-4 right-4 text-gray-400 hover:text-red-600 text-3xl font-bold transition"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- Titre profil avec icône -->
+    <h2
+      class="text-3xl font-extrabold mb-6 text-purple-700 flex items-center gap-4"
+    >
+      <i class="fas fa-id-badge"></i>
+      Informations personnelles
+    </h2>
+
+    <div class="space-y-6 text-gray-800 text-lg">
+      <div class="flex items-center gap-3">
+        <i class="fas fa-user text-purple-500 text-xl"></i>
+        <div>
+          <p class="text-sm text-gray-500">Nom</p>
+          <p>{{ passager?.nom || 'Non renseigné' }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <i class="fas fa-phone-alt text-purple-500 text-xl"></i>
+        <div>
+          <p class="text-sm text-gray-500">Téléphone</p>
+          <p>{{ passager?.phone || 'Non renseigné' }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <i class="fas fa-map-marker-alt text-purple-500 text-xl"></i>
+        <div>
+          <p class="text-sm text-gray-500">Adresse</p>
+          <p>{{ passager?.address || 'Non renseigné' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+ </div>

@@ -50,3 +50,4 @@ export const routes: Routes = [
       import('./pages/recherche/recherche.module').then(m => m.RechercheModule),
   },
 ];
+

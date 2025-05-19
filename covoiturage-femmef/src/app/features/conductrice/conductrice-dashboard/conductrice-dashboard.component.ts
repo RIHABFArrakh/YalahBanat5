@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { VoyageService, Voyage, VoyageDto } from '../../../core/services/voyage.service';
+import { VoyageService, Voyage, VoyageDto, VoyageDto2 } from '../../../core/services/voyage.service';
 import { ReservationService, Reservation } from '../../../core/services/reservation.service';
 
 interface User {
@@ -19,9 +19,9 @@ interface User {
 interface VoyageForm {
   depart: string;
   destination: string;
-  dateHeure: string;
+  dateDepart: string;
   placesDisponibles: number;
-  price: number;
+  prix: number;
 }
 
 @Component({
@@ -52,9 +52,9 @@ export class ConductriceDashboardComponent implements OnInit {
   voyageForm: VoyageForm = {
     depart: '',
     destination: '',
-    dateHeure: '',
+    dateDepart: '',
     placesDisponibles: 1,
-    price: 0
+    prix: 0
   };
 
   reservationForm = {
@@ -62,6 +62,13 @@ export class ConductriceDashboardComponent implements OnInit {
     voyageId: 0,
     passagerId: 2 // This should come from the logged-in user's ID
   };
+   villesMarocaines: string[] = [
+    'Casablanca', 'Rabat', 'Marrakech', 'Fès', 'Tanger',
+    'Agadir', 'Oujda', 'Meknès', 'Tétouan', 'Nador',
+    'Khouribga', 'El Jadida', 'Safi', 'Beni Mellal', 'Kenitra',
+    'Mohammedia', 'Errachidia', 'Laâyoune', 'Dakhla', 'Taroudant'
+  ];
+  
 
   constructor(
     private userService: UserService,
@@ -117,9 +124,9 @@ export class ConductriceDashboardComponent implements OnInit {
     this.voyageForm = {
       depart: '',
       destination: '',
-      dateHeure: '',
+      dateDepart: '',
       placesDisponibles: 1,
-      price: 0
+      prix: 0
     };
   }
 
@@ -130,13 +137,13 @@ export class ConductriceDashboardComponent implements OnInit {
       return;
     }
 
-    if (this.voyageForm.depart && this.voyageForm.destination && this.voyageForm.dateHeure) {
-      const voyageData: VoyageDto = {
+    if (this.voyageForm.depart && this.voyageForm.destination && this.voyageForm.dateDepart) {
+      const voyageData: VoyageDto2 = {
         depart: this.voyageForm.depart,
         destination: this.voyageForm.destination,
-        dateHeure: this.voyageForm.dateHeure,
+        dateDepart: this.voyageForm.dateDepart,
         placesDisponibles: this.voyageForm.placesDisponibles,
-        price: this.voyageForm.price,
+        price: this.voyageForm.prix,
         conductriceId: Number(conductriceId) // Ensure valid conductrice ID is sent
       };
 
@@ -203,4 +210,5 @@ export class ConductriceDashboardComponent implements OnInit {
       this.voyages = voyages;
     });
   }
+  
 }

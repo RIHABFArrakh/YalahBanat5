@@ -57,7 +57,7 @@ export class LoginComponent {
                 this.router.navigate(['/passager/dashboard']);
               });
       
-            }
+            } 
           }
         },   
         error: (error: any) => {

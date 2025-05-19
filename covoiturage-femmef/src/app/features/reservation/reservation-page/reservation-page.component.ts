@@ -37,11 +37,11 @@ import { AuthService } from '../../../core/services/auth.service';
               </div>
               <div>
                 <p class="text-sm text-gray-600">Date et heure</p>
-                <p class="font-medium">{{ voyage.dateHeure | date:'medium' }}</p>
+                <p class="font-medium">{{ voyage.dateDepart | date:'medium' }}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-600">Prix par place</p>
-                <p class="font-medium">{{ voyage.price }} DH</p>
+                <p class="font-medium">{{ voyage.prix }} DH</p>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@ import { AuthService } from '../../../core/services/auth.service';
               <h3 class="text-lg font-semibold text-gray-800 mb-2">Récapitulatif</h3>
               <div class="flex justify-between items-center">
                 <span class="text-gray-600">Total à payer:</span>
-                <span class="text-xl font-bold text-purple-600">{{ nombrePlaces * voyage.price }} DH</span>
+                <span class="text-xl font-bold text-purple-600">{{ nombrePlaces * voyage.prix }} DH</span>
               </div>
             </div>
 
@@ -90,6 +90,7 @@ export class ReservationPageComponent implements OnInit {
   voyage: any = null;
   nombrePlaces: number = 1;
   voyageId: number = 0;
+  currentUserId: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -102,6 +103,17 @@ export class ReservationPageComponent implements OnInit {
   ngOnInit() {
     this.voyageId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadVoyageDetails();
+    this.getCurrentUserId();
+  }
+
+  getCurrentUserId() {
+    const user = this.authService.getCurrentUser();
+    if (user && user.id) {
+      this.currentUserId = user.id;
+    } else {
+      console.error('No user found');
+      this.router.navigate(['/login']);
+    }
   }
 
   loadVoyageDetails() {
@@ -117,21 +129,31 @@ export class ReservationPageComponent implements OnInit {
   }
 
   submitReservation() {
-    if (this.voyage && this.nombrePlaces) {
-      const passagerId = 2; // This should come from the logged-in user
-      this.reservationService.createReservation(
-        this.voyageId,
-        passagerId,
-        this.nombrePlaces
-      ).subscribe({
+    if (this.voyage && this.nombrePlaces && this.currentUserId) {
+      console.log('Submitting reservation with data:', {
+        voyageId: this.voyageId,
+        passagerId: this.currentUserId,
+        nombrePlaces: this.nombrePlaces
+      });
+
+      this.reservationService.createReservation({
+        voyageId: this.voyageId,
+        passagerId: this.currentUserId,
+        nombrePlaces: this.nombrePlaces
+      }).subscribe({
         next: (response) => {
-          // Show success message and redirect
+          console.log('Reservation created successfully:', response);
+          alert('Réservation confirmée avec succès!');
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           console.error('Error creating reservation:', error);
+          alert('Erreur lors de la création de la réservation. Veuillez réessayer.');
         }
       });
+    } else {
+      alert('Veuillez vous connecter pour effectuer une réservation.');
+      this.router.navigate(['/login']);
     }
   }
 

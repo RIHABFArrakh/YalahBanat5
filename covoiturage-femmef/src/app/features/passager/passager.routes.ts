@@ -12,7 +12,9 @@ export const PASSAGER_ROUTES: Routes = [
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         
         // dashboard
-        {path: 'dashboard', component:PassagerDashboardComponent},
+        {path: 'dashboard', 
+          component:PassagerDashboardComponent
+        },
   
         // voyages
         { path: 'reserver/:id', component: BookVoyageComponent},

@@ -28,20 +28,14 @@
         <!-- Solde actuel -->
         <div>
           <p class="text-gray-500 text-sm">Solde actuel</p>
-          <p class="text-3xl font-bold">{{ formatNumber(soldeActuel) }} €</p>
+          <p class="text-3xl font-bold">{{ formatNumber(soldeActuel) }} DH</p>
           <p class="text-sm text-gray-400 mt-1">disponible</p>
           <button class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-full text-sm" (click)="retirerFonds()">
             Retirer mes fonds
           </button>
         </div>
   
-        <!-- Paiements en attente -->
-        <div>
-          <p class="text-gray-500 text-sm">Paiements en attente</p>
-          <p class="text-2xl font-bold">{{ formatNumber(paiementsEnAttente) }} €</p>
-          <p class="text-sm text-gray-400 mt-1">à venir</p>
-          <p class="text-sm text-gray-400 mt-1">Prochaine date de paiement: <strong>{{ prochaineDatePaiement }}</strong></p>
-        </div>
+        
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { VoyageService, Voyage, VoyageDto } from '../../../core/services/voyage.service';
+import { VoyageService, Voyage, VoyageDto, VoyageDto2  } from '../../../core/services/voyage.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -44,10 +44,10 @@ export class AddVoyageComponent {
   submit() {
     if (this.form.valid) {
       this.loading = true;
-      const voyageData: VoyageDto = {
+      const voyageData: VoyageDto2 = {
         depart: this.form.value.depart!,
         destination: this.form.value.destination!,
-        dateHeure: this.form.value.dateDepart!,
+        dateDepart: this.form.value.dateDepart!,
         placesDisponibles: this.form.value.placesDisponibles!,
         price: this.form.value.price!,
         conductriceId: this.form.value.conductriceId!

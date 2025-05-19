@@ -7,16 +7,25 @@ export interface Voyage {
   id: number;
   depart: string;
   destination: string;
-  dateHeure: string;
+  dateDepart: string;
   placesDisponibles: number;
-  price: number;
+  prix: number;
   conductriceId: number;
 }
 
 export interface VoyageDto {
   depart: string;
   destination: string;
-  dateHeure: string;
+  dateDepart: string;
+  placesDisponibles: number;
+  prix: number;
+  conductriceId: number;
+}
+
+export interface VoyageDto2 {
+  depart: string;
+  destination: string;
+  dateDepart: string;
   placesDisponibles: number;
   price: number;
   conductriceId: number;
@@ -50,7 +59,7 @@ export class VoyageService {
     });
   }
 
-  createVoyage(voyageDto: VoyageDto): Observable<Voyage> {
+  createVoyage(voyageDto: VoyageDto2): Observable<Voyage> {
     return this.http.post<Voyage>(this.apiUrl, voyageDto, { headers: this.getHeaders() });
   }
 

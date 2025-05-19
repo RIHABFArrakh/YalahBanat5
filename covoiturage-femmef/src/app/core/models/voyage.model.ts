@@ -2,7 +2,7 @@ export interface Voyage {
   id: number;
   depart: string;
   destination: string;
-  dateDepart: string;
+  dateDepart: string; // ou Date si tu les convertis
   prix: number;
   placesDisponibles: number;
   conductrice: {
