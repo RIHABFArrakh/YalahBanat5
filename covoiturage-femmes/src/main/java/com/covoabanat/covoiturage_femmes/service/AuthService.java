@@ -170,7 +170,8 @@ public class AuthService {
         userRepository.save(user);
 
         // Générer le lien de réinitialisation
-        String resetLink = "http://localhost:8080/auth/reset-password?token=" + resetToken;
+        String resetLink = "http://localhost:4200/auth/reset-password?token=" + resetToken;
+
 
         // Charger et personnaliser le modèle d'email
         Map<String, String> emailVariables = Map.of("resetLink", resetLink);

@@ -20,7 +20,7 @@ public class VoyageDto {
     @NotNull(message = "La date et l'heure doivent être spécifiées")
     @Future(message = "La date et l'heure doivent être dans le futur")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime dateHeure;
+    private LocalDateTime dateDepart;
 
     @Min(value = 1, message = "Le nombre de places disponibles doit être au moins 1")
     private int placesDisponibles;
@@ -32,4 +32,7 @@ public class VoyageDto {
     private Long conductriceId;
 
     // Getters and Setters
+    public LocalDateTime getDateDepart() {
+        return dateDepart;
+    }
 }

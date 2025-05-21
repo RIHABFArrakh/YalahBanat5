@@ -3,6 +3,8 @@ package com.covoabanat.covoiturage_femmes.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -21,5 +23,7 @@ public class User {
     private Role role;
     private String activationToken;
     private boolean enabled = false;
+    private LocalDate membershipDate;
 
+   
 }

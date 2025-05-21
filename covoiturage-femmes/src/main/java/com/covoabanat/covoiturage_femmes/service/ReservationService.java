@@ -2,12 +2,14 @@ package com.covoabanat.covoiturage_femmes.service;
 
 import com.covoabanat.covoiturage_femmes.model.*;
 import com.covoabanat.covoiturage_femmes.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
@@ -16,19 +18,16 @@ public class ReservationService {
     private final PassagerRepository passagerRepository;
     private final ReservationRepository reservationRepository;
 
-    // Méthode pour récupérer les réservations par l'ID du passager
+    // Récupérer les réservations d’un passager
     public List<Reservation> getReservationsByPassagerId(Long idPassager) {
         List<Reservation> reservations = reservationRepository.findByPassagerId(idPassager);
-
-        // Vérifie si la liste de réservations est vide et lève une exception si c'est le cas
         if (reservations.isEmpty()) {
             throw new RuntimeException("Aucune réservation trouvée pour le passager avec l'id: " + idPassager);
         }
-
         return reservations;
     }
 
-    // Méthode pour réserver un voyage
+    // Réserver un voyage
     public Reservation reserverVoyage(Long voyageId, Long passagerId, int nombrePlaces) {
         Voyage voyage = voyageRepository.findById(voyageId)
                 .orElseThrow(() -> new RuntimeException("Voyage non trouvé"));
@@ -43,7 +42,8 @@ public class ReservationService {
         voyage.setPlacesDisponibles(voyage.getPlacesDisponibles() - nombrePlaces);
         voyageRepository.save(voyage);
 
-        Reservation reservation = new Reservation(voyage, passager);
+        Reservation reservation = new Reservation(voyage, passager, nombrePlaces);
         return reservationRepository.save(reservation);
     }
+
 }

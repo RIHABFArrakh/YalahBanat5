@@ -1,5 +1,6 @@
 package com.covoabanat.covoiturage_femmes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "reservation")
 public class Reservation {
 
     @Id
@@ -27,13 +29,18 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "voyage_id")
+    @JsonIgnore
     private Voyage voyage;
 
-    // Si tu veux forcer une initialisation via un constructeur spécifique :
-    public Reservation(Voyage voyage, Passager passager) {
+    @Column(nullable = false)
+    private int nombrePlaces;
+
+    // Constructeur personnalisé
+    public Reservation(Voyage voyage, Passager passager, int nombrePlaces) {
         this.voyage = voyage;
         this.passager = passager;
-        this.dateReservation = LocalDateTime.now();  // Par exemple, initialiser la date à l'instant présent
-        this.statut = StatutReservation.EN_ATTENTE;  // ou un statut par défaut
+        this.dateReservation = LocalDateTime.now();
+        this.statut = StatutReservation.EN_ATTENTE;
+        this.nombrePlaces = nombrePlaces;
     }
 }

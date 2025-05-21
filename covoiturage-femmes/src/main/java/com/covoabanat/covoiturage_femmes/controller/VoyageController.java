@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +33,8 @@ public class VoyageController {
         Voyage voyage = new Voyage();
         voyage.setDepart(voyageDto.getDepart());
         voyage.setDestination(voyageDto.getDestination());
-        voyage.setDateDepart(voyageDto.getDateHeure());
+        voyage.setDateDepart(voyageDto.getDateDepart()); //
+
         voyage.setPrix(voyageDto.getPrice());
         voyage.setPlacesDisponibles(voyageDto.getPlacesDisponibles());
         Conductrice conductrice = conductriceRepository.findById(voyageDto.getConductriceId())
@@ -46,21 +50,43 @@ public class VoyageController {
         return ResponseEntity.ok(voyageService.listerVoyages());
     }
 
-    @GetMapping("/conductrice/{conductriceId}")
-    public ResponseEntity<List<Voyage>> listerVoyagesParConductrice(@PathVariable Long conductriceId) {
-        return ResponseEntity.ok(voyageService.listerVoyagesParConductrice(conductriceId));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Voyage> obtenirVoyageParId(@PathVariable Long id) {
         return voyageService.obtenirVoyageParId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/recherche")
+    public ResponseEntity<List<Voyage>> rechercherVoyages(
+            @RequestParam String depart,
+            @RequestParam String destination,
+            @RequestParam String dateDepart) {
+
+        System.out.println("depart=" + depart + ", destination=" + destination + ", dateDepart=" + dateDepart);
+
+        LocalDate dateTime;
+        try {
+            dateTime = LocalDate.parse(dateDepart);
+        } catch (DateTimeParseException e) {
+            System.err.println("Erreur parsing date: " + e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        List<Voyage> voyages = voyageService.rechercherVoyages(depart, destination, dateTime);
+        return ResponseEntity.ok(voyages);
+    }
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> supprimerVoyage(@PathVariable Long id) {
         voyageService.supprimerVoyage(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/conductrice/{id}")
+    public List<Voyage> getVoyagesByConductriceId(@PathVariable("id") Long conductriceId) {
+        return voyageService.getVoyagesByConductriceId(conductriceId);
     }
 }

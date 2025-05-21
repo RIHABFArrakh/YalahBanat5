@@ -1,5 +1,6 @@
 package com.covoabanat.covoiturage_femmes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,17 @@ public class Voyage {
     private int placesDisponibles;
     private double prix;
 
+    //  @ManyToOne
+    //    @JoinColumn(name = "destination_id")
+    //    private City city;
+    //
+    //    @ManyToOne
+    //    @JoinColumn(name = "depart_id")
+    //    private City city;
+    //
+    //avec l ajout dune entite city
+
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "conductrice_id")
     private Conductrice conductrice;
