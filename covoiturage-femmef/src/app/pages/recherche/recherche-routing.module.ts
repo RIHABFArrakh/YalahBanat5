@@ -10,5 +10,3 @@ const routes: Routes = [ { path: '', component: RechercheComponent}
   exports: [RouterModule]
 })
 export class RechercheRoutingModule { }
-
-

@@ -226,4 +226,34 @@ export class PassagerDashboardComponent implements OnInit {
   toggleDetails() {
     this.showDetails = !this.showDetails;
   }
+  historiqueVoyages = [
+  {
+    depart: 'Casablanca',
+    destination: 'Rabat',
+    date: new Date('2025-04-15T14:30'),
+    distance: 90,
+    conducteur: 'Ahmed M.',
+    prix: 75,
+    evaluation: 5,
+  },
+  {
+    depart: 'Casablanca',
+    destination: 'Marrakech',
+    date: new Date('2025-03-22T09:00'),
+    distance: 240,
+    conducteur: 'Fatima L.',
+    prix: 150,
+    evaluation: 4,
+  },
+  {
+    depart: 'Rabat',
+    destination: 'Casablanca',
+    date: new Date('2025-03-10T16:45'),
+    distance: 90,
+    conducteur: 'Karim B.',
+    prix: 70,
+    evaluation: 0, // Non noté
+  },
+];
+
 }

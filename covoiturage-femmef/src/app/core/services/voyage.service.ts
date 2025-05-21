@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -84,4 +84,6 @@ export class VoyageService {
     const headers = this.getHeaders();
     return this.http.get<Voyage[]>(`${this.apiUrl}/conductrice/${conductriceId}`, { headers });
   }
+
+
 }

@@ -1,7 +1,11 @@
+import { User } from "./user.model";
+
 // conductrice.model.ts
 export interface Conductrice {
-    nom: string;
-    membershipDate: string;
+    numeroPermis: string;
+    voiture: string;
     // Ajoutez d'autres champs si nécessaires
+            user?: User;
+    
   }
   

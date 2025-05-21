@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,5 +11,44 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent {
-  isMenuOpen = false;
+  villes: string[] = [
+    'Casablanca', 'Rabat', 'Marrakech', 'Fès', 'Tanger',
+    'Agadir', 'Oujda', 'Meknès', 'Tétouan', 'Laâyoune',
+    'Nador', 'El Jadida', 'Khouribga', 'Béni Mellal', 'Safi',
+    'Errachidia', 'Kénitra', 'Guelmim', 'Ouarzazate', 'Taza'
+  ];
+
+  depart: string = '';
+  destination: string = '';
+  date: string = '';
+  passagers: number = 1;
+
+  constructor(private router: Router) {}
+
+  goToRecherche() {
+    if (!this.depart || !this.destination) {
+      alert('Veuillez remplir les champs départ et destination');
+      return;
+    }
+
+    this.router.navigate(['/recherche'], {
+      queryParams: {
+        depart: this.depart,
+        destination: this.destination,
+        date: this.date,
+        passagers: this.passagers
+      }
+    });
+  }
+
+  incrementPassagers() {
+    this.passagers++;
+  }
+
+  decrementPassagers() {
+    if (this.passagers > 1) {
+      this.passagers--;
+    }
+  }
+  
 }

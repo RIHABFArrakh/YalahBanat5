@@ -1,9 +1,10 @@
 // reservation.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 // reservation.service.ts
 import { Reservation } from '../models/reservation.model';
+import { Voyage } from '../models/voyage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,16 @@ export class ReservationService {
   getHistoriqueReservations(idPassager: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.apiUrl}/historique/${idPassager}`);
   }
-  
+    rechercherVoyages(depart: string, destination: string, dateDepart: string): Observable<Voyage[]> {
+    const params = new HttpParams()
+      .set('depart', depart)
+      .set('destination', destination)
+      .set('dateDepart', dateDepart);
+
+    return this.http.get<Voyage[]>(`${this.apiUrl}/api/voyages/recherche?depart=${depart}&destination=${destination}&dateDepart=${dateDepart}`,{
+       headers: this.getHeaders()
+  });
+  }
   
 }
 export { Reservation };

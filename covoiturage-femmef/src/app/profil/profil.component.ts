@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit {
       this.role = 'conductrice';
       this.profilService.getConductriceByUserId(this.user.id).subscribe({
         next: (data) => {
+          console.log(data)
           this.conductrice = data;
         },
         error: (err) => {

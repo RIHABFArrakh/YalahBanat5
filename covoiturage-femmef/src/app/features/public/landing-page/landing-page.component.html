@@ -35,100 +35,73 @@
         </div>
   
         <!-- Formulaire -->
-        <form class="bg-white rounded-2xl shadow-md p-8 space-y-6 w-full">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Départ -->
-            <div class="relative">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Départ</label>
-              <i class="fas fa-location-dot absolute left-3 top-[38px] text-purple-500 text-lg"></i>
-              <select
-                class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              >
-                <option value="">Sélectionnez une ville</option>
-                <option value="Casablanca">Casablanca</option>
-                <option value="Rabat">Rabat</option>
-                <option value="Marrakech">Marrakech</option>
-                <option value="Fès">Fès</option>
-                <option value="Tanger">Tanger</option>
-                <option value="Agadir">Agadir</option>
-                <option value="Oujda">Oujda</option>
-                <option value="Meknès">Meknès</option>
-                <option value="Tétouan">Tétouan</option>
-                <option value="Laâyoune">Laâyoune</option>
-                <option value="Nador">Nador</option>
-                <option value="El Jadida">El Jadida</option>
-                <option value="Khouribga">Khouribga</option>
-                <option value="Béni Mellal">Béni Mellal</option>
-                <option value="Safi">Safi</option>
-                <option value="Errachidia">Errachidia</option>
-                <option value="Kénitra">Kénitra</option>
-                <option value="Guelmim">Guelmim</option>
-                <option value="Ouarzazate">Ouarzazate</option>
-                <option value="Taza">Taza</option>
-              </select>
-            </div>            
-  
-            <div class="relative">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
-              <i class="fas fa-location-dot absolute left-3 top-[38px] text-purple-500 text-lg"></i>
-              <select
-                class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              >
-                <option value="">Sélectionnez une ville</option>
-                <option value="Casablanca">Casablanca</option>
-                <option value="Rabat">Rabat</option>
-                <option value="Marrakech">Marrakech</option>
-                <option value="Fès">Fès</option>
-                <option value="Tanger">Tanger</option>
-                <option value="Agadir">Agadir</option>
-                <option value="Oujda">Oujda</option>
-                <option value="Meknès">Meknès</option>
-                <option value="Tétouan">Tétouan</option>
-                <option value="Laâyoune">Laâyoune</option>
-                <option value="Nador">Nador</option>
-                <option value="El Jadida">El Jadida</option>
-                <option value="Khouribga">Khouribga</option>
-                <option value="Béni Mellal">Béni Mellal</option>
-                <option value="Safi">Safi</option>
-                <option value="Errachidia">Errachidia</option>
-                <option value="Kénitra">Kénitra</option>
-                <option value="Guelmim">Guelmim</option>
-                <option value="Ouarzazate">Ouarzazate</option>
-                <option value="Taza">Taza</option>
-              </select>
-            </div>
-            
-  
-            <!-- Date -->
-            <div class="relative">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-              <i class="fas fa-calendar-alt absolute left-3 top-[38px] text-purple-500 text-lg"></i>
-              <input type="date" min="2025-01-01"
-                class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400" />
-            </div>
-  
-            <!-- Passagers -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Passagers</label>
-              <div class="flex items-center rounded-xl border border-gray-300 bg-gray-50 px-2 py-2">
-                <button type="button" class="text-purple-600 px-3 text-lg font-bold">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="number" min="1" value="1"
-                  class="text-center w-full bg-transparent focus:outline-none" />
-                <button type="button" class="text-purple-600 px-3 text-lg font-bold">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Bouton -->
-          <button type="submit"
-  class="w-full bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-semibold py-3 rounded-xl transition-all duration-300">
-  <i class="fas fa-search mr-2"></i> Rechercher
-</button>
-        </form>
+        <!-- landing-page.component.html -->
+
+<form class="bg-white rounded-2xl shadow-md p-8 space-y-6 w-full">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Départ -->
+    <div class="relative">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Départ</label>
+      <i class="fas fa-location-dot absolute left-3 top-[38px] text-purple-500 text-lg"></i>
+      <select
+        [(ngModel)]="depart"
+        name="depart"
+        class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      >
+        <option value="">Sélectionnez une ville</option>
+        <option *ngFor="let ville of villes" [value]="ville">{{ ville }}</option>
+      </select>
+    </div>
+
+    <!-- Destination -->
+    <div class="relative">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
+      <i class="fas fa-location-dot absolute left-3 top-[38px] text-purple-500 text-lg"></i>
+      <select
+        [(ngModel)]="destination"
+        name="destination"
+        class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      >
+        <option value="">Sélectionnez une ville</option>
+        <option *ngFor="let ville of villes" [value]="ville">{{ ville }}</option>
+      </select>
+    </div>
+
+    <!-- Date -->
+    <div class="relative">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+      <i class="fas fa-calendar-days absolute left-3 top-[38px] text-purple-500 text-lg"></i>
+      <input
+        type="date"
+        [(ngModel)]="date"
+        name="date"
+        class="w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"
+      />
+    </div>
+
+    <!-- Passagers -->
+    <div class="relative">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Passagers</label>
+      <div class="flex items-center justify-between bg-gray-50 border border-gray-300 rounded-xl px-4 py-2">
+        <button (click)="decrementPassagers()" type="button" class="text-purple-500 text-xl">-</button>
+        <span>{{passagers}}</span>
+        <button (click)="incrementPassagers()" type="button" class="text-purple-500 text-xl">+</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bouton -->
+  <button
+    type="button"
+    (click)="goToRecherche()"
+    class="w-full bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-semibold py-3 rounded-xl transition-all duration-300"
+  >
+    <i class="fas fa-search mr-2"></i> Rechercher
+  </button>
+</form>
+
       </div>
   
       <!-- Colonne droite : Image alignée au formulaire -->

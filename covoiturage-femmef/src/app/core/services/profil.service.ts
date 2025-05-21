@@ -8,7 +8,7 @@ import { Conductrice } from '../models/conductrice.model';
   providedIn: 'root'
 })
 export class ProfilService {
-  private apiUrl = 'http://votre-backend-api-url/user'; // L'URL de l'API pour obtenir les profils
+  private apiUrl = 'localho/user'; // L'URL de l'API pour obtenir les profils
 
   constructor(private http: HttpClient) {}
 

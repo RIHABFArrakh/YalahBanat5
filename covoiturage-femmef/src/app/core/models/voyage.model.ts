@@ -1,3 +1,5 @@
+import { Conductrice } from "./conductrice.model";
+
 export interface Voyage {
   id: number;
   depart: string;
@@ -5,12 +7,6 @@ export interface Voyage {
   dateDepart: string; // ou Date si tu les convertis
   prix: number;
   placesDisponibles: number;
-  conductrice: {
-    id: number;
-    nom: string;
-    photo: string;
-    note: number;
-    nombreEvaluations: number;
-  };
+  conductrice:Conductrice;
   status: 'ACTIF' | 'COMPLET' | 'TERMINE';
 }

@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { VoyageService } from '../../core/services/voyage.service';
+import { Voyage } from '../../core/models/voyage.model';
+import { ReservationService } from '../../core/services/reservation.service';
 
 @Component({
   selector: 'app-recherche',
@@ -9,11 +13,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./recherche.component.css'],
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class RechercheComponent {
+export class RechercheComponent implements OnInit {
   form: FormGroup;
   minDateTime: string;
   showResults = false;
-
+  voyages:Voyage[] = [];
   trajets = [
     {
       villeDepart: 'Casablanca',
@@ -65,7 +69,12 @@ export class RechercheComponent {
     }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+        private reservationService: ReservationService,
+
+  ) {
     this.minDateTime = new Date().toISOString().slice(0, 16);
 
     this.form = this.fb.group({
@@ -76,6 +85,32 @@ export class RechercheComponent {
     });
   }
 
+   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const depart = params['depart'] || '';
+      const destination = params['destination'] || '';
+      const date = params['date'] || '';
+ this.form.patchValue({
+      depart,
+      destination,
+      datetime: date
+    });
+      if (depart && destination && date) {
+        this.showResults = true;
+      this.searchVoyages(depart,destination,date)
+      }
+    });
+  }
+
+  searchVoyages(depart :string,destination:string,date:string){
+      this.reservationService.rechercherVoyages(depart, destination, date)
+          .subscribe({
+            next: (data) =>{ 
+              console.log(data)
+              this.voyages = data},
+            error: (err) => console.error('Erreur lors de la récupération des voyages:', err)
+          });
+  }
   increasePassengers() {
     const current = this.form.get('passengers')?.value || 1;
     this.form.get('passengers')?.setValue(current + 1);
@@ -91,10 +126,25 @@ export class RechercheComponent {
   submit() {
     if (this.form.valid) {
       console.log('Recherche validée :', this.form.value);
+      console.log(this.form.value);
+       this.searchVoyages(this.form.value.depart,this.form.value.destination,this.form.value.datetime)
       this.showResults = true;
     } else {
       this.form.markAllAsTouched();
       this.showResults = false;
     }
   }
+
+  formatDate(dateString: string): string {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('fr-FR', options);
+}
+
 }

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
 import { ReservationPageComponent } from './features/reservation/reservation-page/reservation-page.component';
-import { FinancesComponent} from './finances/finances.component'
+import { FinancesComponent } from './finances/finances.component';
 
 export const routes: Routes = [
   {
@@ -39,15 +39,14 @@ export const routes: Routes = [
     component: ReservationPageComponent
   },
   {
-    path: 'finances', // ✅ Route ajoutée
+    path: 'finances',
     component: FinancesComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'conductrice' }
   },
   {
-    path: 'recherche',
+    path: 'recherche', // ✅ Route vers la page de recherche
     loadChildren: () =>
       import('./pages/recherche/recherche.module').then(m => m.RechercheModule),
   },
 ];
-

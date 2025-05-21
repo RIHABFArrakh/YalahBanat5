@@ -36,19 +36,19 @@
   <div *ngIf="role === 'conductrice' && conductrice" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
     <div>
       <p class="text-gray-400 font-semibold">Nom</p>
-      <p>{{ conductrice.nom }}</p>
+      <p>{{ conductrice.user.name }}</p>
     </div>
     <div>
       <p class="text-gray-400 font-semibold">Email</p>
-      <p><i class="fas fa-envelope mr-1 text-purple-500"></i>{{ conductrice.email }}</p>
+      <p><i class="fas fa-envelope mr-1 text-purple-500"></i>{{ conductrice.user.email  }}</p>
     </div>
     <div>
-      <p class="text-gray-400 font-semibold">Téléphone</p>
-      <p><i class="fas fa-phone-alt mr-1 text-purple-500"></i>{{ conductrice.telephone }}</p>
+      <p class="text-gray-400 font-semibold">Voiture</p>
+      <p><i class="fas fa-phone-alt mr-1 text-purple-500"></i>{{ conductrice.voiture }}</p>
     </div>
     <div>
-      <p class="text-gray-400 font-semibold">Ville</p>
-      <p><i class="fas fa-map-marker-alt mr-1 text-purple-500"></i>{{ conductrice.ville }}</p>
+      <p class="text-gray-400 font-semibold">Numero permis</p>
+      <p><i class="fas fa-map-marker-alt mr-1 text-purple-500"></i>{{ conductrice.numeroPermis }}</p>
     </div>
     <div class="md:col-span-2">
       <p class="text-gray-400 font-semibold">Bio</p>
