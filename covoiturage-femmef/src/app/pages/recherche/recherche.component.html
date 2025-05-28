@@ -7,28 +7,28 @@
     <div class="bg-white shadow-md rounded-2xl p-6 max-w-3xl mx-auto">
       <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        <!-- Départ -->
-        <div class="flex flex-col">
-          <label class="text-sm font-medium text-gray-700 mb-1">Départ</label>
-          <input
-            type="text"
-            formControlName="depart"
-            placeholder="Ville ou adresse de départ"
-            class="rounded-xl border border-gray-300 px-3 py-3 w-full focus:ring-2 focus:ring-purple-400"
-          />
-        </div>
-  
-        <!-- Destination -->
-        <div class="flex flex-col">
-          <label class="text-sm font-medium text-gray-700 mb-1">Destination</label>
-          <input
-            type="text"
-            formControlName="destination"
-            placeholder="Ville ou adresse d'arrivée"
-            class="rounded-xl border border-gray-300 px-3 py-3 w-full focus:ring-2 focus:ring-purple-400"
-          />
-        </div>
-  
+       <!-- Départ -->
+<div class="flex flex-col">
+  <label class="text-sm font-medium text-gray-700 mb-1">Départ</label>
+  <select
+    formControlName="depart"
+    class="rounded-xl border border-gray-300 px-3 py-3 w-full focus:ring-2 focus:ring-purple-400">
+    <option value="" disabled selected>Choisissez une ville</option>
+    <option *ngFor="let ville of villesMaroc" [value]="ville">{{ ville }}</option>
+  </select>
+</div>
+
+<!-- Destination -->
+<div class="flex flex-col">
+  <label class="text-sm font-medium text-gray-700 mb-1">Destination</label>
+  <select
+    formControlName="destination"
+    class="rounded-xl border border-gray-300 px-3 py-3 w-full focus:ring-2 focus:ring-purple-400">
+    <option value="" disabled selected>Choisissez une ville</option>
+    <option *ngFor="let ville of villesMaroc" [value]="ville">{{ ville }}</option>
+  </select>
+</div>
+
         <!-- Date & heure -->
         <div class="flex flex-col">
           <label class="text-sm font-medium text-gray-700 mb-1">Date & heure</label>
@@ -66,10 +66,6 @@
 
 
 
-  
-
-
-<!-- Affichage conditionnel des résultats -->
 <section *ngIf="showResults" class="bg-[#f9f6ff] py-8 px-6 rounded-lg mt-8">
   <h2 class="text-xl font-bold mb-6">{{ voyages.length }} trajets trouvés</h2>
 
@@ -84,7 +80,7 @@
         </div>
         <div>
           <p class="text-sm font-medium">{{ voyage.conductrice.user.name }}</p>
-          <p class="text-xs text-gray-400">⭐ 4.8 • 25 trajets</p> <!-- Remplace par une vraie note si dispo -->
+          <p class="text-xs text-gray-400">⭐ 4.8 • 25 trajets</p>
         </div>
       </div>
 
@@ -94,14 +90,24 @@
     </div>
 
     <div class="text-right">
-      <p class="text-sm border px-4 py-2 rounded-full border-purple-400 text-purple-700 flex items-center justify-center font-semibold mb-2 w-[80px] h-[40px]">
+      <p
+        class="text-sm border px-4 py-2 rounded-full border-purple-400 text-purple-700 flex items-center justify-center font-semibold mb-2 w-[80px] h-[40px]">
         {{ voyage.prix }} DH
       </p>
-      <button class="bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-purple-600 text-sm">
+      <button (click)="openPopup(voyage)"
+        class="bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-purple-600 text-sm">
         Réserver
       </button>
     </div>
   </div>
+
+  <!-- Popup réservation -->
+  <app-reservation-popup
+    *ngIf="popupVisible"
+    [voyage]="selectedVoyage"
+    (closed)="closePopup()"
+    (confirmed)="confirmerReservation($event)">
+  </app-reservation-popup>
 </section>
 
 

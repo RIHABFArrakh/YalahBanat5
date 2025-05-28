@@ -54,7 +54,9 @@ export class ConductriceDashboardComponent implements OnInit {
   showAllTripsModal = false;
   selectedVoyageId: number | null = null;
   showDetails = false;
-  isLoading=true;
+  isLoading = true;
+  afficherReservations = false;
+
 
   voyageForm: VoyageForm = {
     depart: '',
@@ -69,7 +71,7 @@ export class ConductriceDashboardComponent implements OnInit {
     voyageId: 0,
     passagerId: 2 // à remplacer dynamiquement si besoin
   };
-  
+
 
   villesMarocaines: string[] = [
     'Casablanca', 'Rabat', 'Marrakech', 'Fès', 'Tanger',
@@ -85,10 +87,10 @@ export class ConductriceDashboardComponent implements OnInit {
     private reservationService: ReservationService,
     private profilService: ProfilService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-      this.isLoading=true;
+    this.isLoading = true;
     const conductriceId = localStorage.getItem('conductriceId');
     if (conductriceId && Number(conductriceId) != 0) {
       this.loadVoyagesByConductrice(Number(conductriceId));
@@ -97,20 +99,20 @@ export class ConductriceDashboardComponent implements OnInit {
       alert('L\'ID de la conductrice est invalide. Veuillez vous reconnecter.');
       this.router.navigate(['/login']);
     }
-    this.user= this.authService.getCurrentUser()
+    this.user = this.authService.getCurrentUser()
     console.log(this.user)
-      this.userService.getConductriceByUserId(this.user.id).subscribe({
-        next: (data) => {
-          console.log(data)
-          this.conductrice = data;
-               this.isLoading=false;
-        },
-        error: (err) => {
-          console.error('Erreur chargement conductrice :', err);
-               this.isLoading=false;
+    this.userService.getConductriceByUserId(this.user.id).subscribe({
+      next: (data) => {
+        console.log(data)
+        this.conductrice = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Erreur chargement conductrice :', err);
+        this.isLoading = false;
 
-        },
-      });
+      },
+    });
 
   }
 
@@ -216,5 +218,10 @@ export class ConductriceDashboardComponent implements OnInit {
 
   toggleDetails() {
     this.showDetails = !this.showDetails;
+  }
+
+  goToReservations(voyageId: number): void {
+    const conductriceId = localStorage.getItem('conductriceId');
+    this.router.navigate(['/reservations', conductriceId, voyageId]);
   }
 }

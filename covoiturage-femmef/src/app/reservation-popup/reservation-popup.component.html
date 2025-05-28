@@ -1,0 +1,93 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+    
+    <!-- Fermer -->
+    <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600" (click)="closePopup()">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <h2 class="text-xl font-semibold text-gray-800">Confirmer votre réservation</h2>
+    <p class="text-sm text-gray-500">Veuillez vérifier les détails de votre trajet et confirmer votre réservation.</p>
+
+    <!-- Détails du trajet -->
+    <div class="bg-gray-50 border rounded-xl p-4 my-4 space-y-2">
+      <div class="text-lg font-medium text-purple-700">{{ voyage.depart }} → {{ voyage.destination }}</div>
+      <div class="flex justify-between text-sm text-gray-600">
+        <span>{{ voyage.date }}</span>
+        <span>{{ voyage.heure }}</span>
+      </div>
+      <div class="flex justify-between text-sm text-gray-600">
+        <span>Avec {{ voyage.conductrice?.user?.name  }}</span>
+        <span>{{ voyage.prix }} MAD / place</span>
+      </div>
+    </div>
+
+    <!-- Nombre de places -->
+    <div class="flex items-center justify-between mb-4">
+      <label class="text-sm font-medium text-gray-700">Nombre de places</label>
+      <div class="flex items-center gap-2">
+        <button class="px-2 py-1 bg-gray-200 rounded" (click)="decrement()">-</button>
+        <span>{{ places }}</span>
+        <button class="px-2 py-1 bg-gray-200 rounded" (click)="increment()">+</button>
+        <span class="text-sm text-gray-500">{{ maxPlaces }} disponibles</span>
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="flex justify-between border-t border-gray-200 pt-3 mb-4">
+      <span>Total</span>
+      <span class="font-semibold">{{ places * voyage.prix }} MAD</span>
+    </div>
+    <p class="text-xs text-gray-400 mb-3">Frais de service inclus</p>
+
+        <div class="space-y-2">
+    <label class="block text-sm font-medium text-gray-700">Méthode de paiement</label>
+    
+   <div>
+  
+
+  <div class="flex gap-4">
+    <div
+      (click)="selectPayment('cash')"
+      [ngClass]="
+        paymentMethod === 'cash'
+          ? 'bg-violet-600 text-white border-violet-800'
+          : 'bg-violet-100 text-violet-700 border-violet-300'
+      "
+      class="cursor-pointer border rounded-lg px-6 py-3 select-none transition-colors duration-300"
+    >
+      Paiement en espèces
+    </div>
+
+    <div
+      (click)="selectPayment('card')"
+      [ngClass]="
+        paymentMethod === 'card'
+          ? 'bg-pink-600 text-white border-pink-800'
+          : 'bg-pink-100 text-pink-700 border-pink-300'
+      "
+      class="cursor-pointer border rounded-lg px-6 py-3 select-none transition-colors duration-300"
+    >
+      Carte bancaire
+    </div>
+  </div>
+
+  <p *ngIf="paymentMethod" class="mt-4 text-gray-700">
+    Méthode choisie :
+    <span class="font-semibold">
+      {{ paymentMethod === 'cash' ? 'Paiement en espèces' : 'Carte bancaire' }}
+    </span>
+  </p>
+</div>
+
+
+    <!-- Bouton -->
+    <button
+      class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-xl"
+      (click)="confirmReservation()">
+      Confirmer la réservation
+    </button>
+  </div>
+</div>

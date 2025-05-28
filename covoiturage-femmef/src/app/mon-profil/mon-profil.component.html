@@ -1,0 +1,168 @@
+<div class="p-8 bg-[#fcfbff] min-h-screen">
+  <h1 class="text-3xl font-semibold text-purple-600 mb-1">Mon Profil</h1>
+  <p class="text-gray-500 mb-6">Gérez et mettez à jour vos informations personnelles</p>
+
+  <div class="flex flex-col lg:flex-row gap-4">
+    <!-- Carte de gauche -->
+    <div class="bg-gradient-to-br from-purple-600 to-pink-400 text-white rounded-2xl p-4 shadow-md relative overflow-hidden w-[300px]">
+      <div class="flex flex-col items-center">
+        <div class="rounded-full bg-white bg-opacity-20 h-20 w-20 flex items-center justify-center text-2xl font-semibold mb-4 border border-white/30">
+          {{ utilisateur.initiales }}
+        </div>
+        <h2 class="text-lg font-semibold">{{ utilisateur.nomComplet }}</h2>
+        <p class="text-sm text-white/80">Membre depuis {{ utilisateur.membreDepuis }}</p>
+
+        <div class="flex items-center gap-3 mt-3">
+          <div class="flex items-center gap-1 text-sm bg-white/20 px-2 py-1 rounded-full">
+            <i class="text-yellow-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 17.27L18.18 21 16.54 13.97 22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
+            </i>
+            <span>{{ utilisateur.note }}</span>
+          </div>
+          <div class="flex items-center gap-1 text-sm bg-white/20 px-2 py-1 rounded-full">
+            <i class="text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 10-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+              </svg>
+            </i>
+            <span>{{ utilisateur.nombreTrajets }} trajets</span>
+          </div>
+        </div>
+
+<button
+  class="mt-5 w-full bg-white/20 text-white py-2 rounded-full"
+  routerLink="/conductrice-dashboard">
+  Tableau de bord
+</button>    
+  </div>
+
+      <div class="mt-8">
+        <h3 class="text-sm font-semibold mb-3">Options de sécurité</h3>
+        <div class="space-y-2">
+          <button class="flex items-center gap-2 w-full bg-white/20 py-2 px-3 rounded-full text-sm" (click)="verifierTelephone()">
+            <i class="text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h1l1 9h14l1-9h1" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h4v4h-4z" />
+              </svg>
+            </i>
+            Vérifier mon téléphone
+          </button>
+          <button class="flex items-center gap-2 w-full bg-white/20 py-2 px-3 rounded-full text-sm" (click)="changerMotDePasse()">
+            <i class="text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.104-.896-2-2-2s-2 .896-2 2v1H7a2 2 0 00-2 2v4h10v-4a2 2 0 00-2-2h-1v-1z" />
+              </svg>
+            </i>
+            Changer mon mot de passe
+          </button>
+          <button class="flex items-center gap-2 w-full bg-white/10 py-2 px-3 rounded-full text-sm text-white/70" (click)="desactiverCompte()">
+            <i class="text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </i>
+            Désactiver mon compte
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte de droite -->
+    <div class="flex-1 bg-white rounded-2xl shadow-md overflow-hidden">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-400 h-3 rounded-t-2xl"></div>
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div class="flex items-center gap-2 text-purple-700">
+            <i>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5.121 17.804A4.992 4.992 0 0012 20c1.657 0 3.156-.803 4.121-2.196m1.415-1.414A4.992 4.992 0 0020 12a4.992 4.992 0 00-2.196-4.121m-1.414-1.415A4.992 4.992 0 0012 4a4.992 4.992 0 00-4.121 2.196M6.464 6.464A4.992 4.992 0 004 12c0 1.657.803 3.156 2.196 4.121" />
+              </svg>
+            </i>
+            <h3 class="text-lg font-semibold">Informations personnelles</h3>
+          </div>
+          <button class="text-purple-600 border border-purple-600 px-4 py-1 rounded-full text-sm hover:bg-purple-50"
+            (click)="modifierMode = !modifierMode">
+            ✎ {{ modifierMode ? 'Annuler' : 'Modifier' }}
+          </button>
+        </div>
+    
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <p class="text-sm text-purple-600 font-medium mb-1">Nom complet</p>
+            <div class="bg-gray-100 p-3 rounded-md">
+              <ng-container *ngIf="!modifierMode; else editNom">
+                {{ utilisateur.nomComplet }}
+              </ng-container>
+              <ng-template #editNom>
+                <input type="text" [(ngModel)]="utilisateur.nomComplet"
+                  class="w-full border border-gray-300 rounded-md px-2 py-1" />
+              </ng-template>
+            </div>
+          </div>
+    
+          <div>
+            <p class="text-sm text-purple-600 font-medium mb-1">Email</p>
+            <div class="bg-gray-100 p-3 rounded-md">
+              <ng-container *ngIf="!modifierMode; else editEmail">
+                {{ utilisateur.email }}
+              </ng-container>
+              <ng-template #editEmail>
+                <input type="email" [(ngModel)]="utilisateur.email"
+                  class="w-full border border-gray-300 rounded-md px-2 py-1" />
+              </ng-template>
+            </div>
+          </div>
+    
+          <div>
+            <p class="text-sm text-purple-600 font-medium mb-1">Téléphone</p>
+            <div class="bg-gray-100 p-3 rounded-md">
+              <ng-container *ngIf="!modifierMode; else editTelephone">
+                {{ utilisateur.telephone }}
+              </ng-container>
+              <ng-template #editTelephone>
+                <input type="text" [(ngModel)]="utilisateur.telephone"
+                  class="w-full border border-gray-300 rounded-md px-2 py-1" />
+              </ng-template>
+            </div>
+          </div>
+    
+          <div>
+            <p class="text-sm text-purple-600 font-medium mb-1">Ville</p>
+            <div class="bg-gray-100 p-3 rounded-md">
+              <ng-container *ngIf="!modifierMode; else editVille">
+                {{ utilisateur.ville }}
+              </ng-container>
+              <ng-template #editVille>
+                <input type="text" [(ngModel)]="utilisateur.ville"
+                  class="w-full border border-gray-300 rounded-md px-2 py-1" />
+              </ng-template>
+            </div>
+          </div>
+        </div>
+    
+        <div>
+          <p class="text-sm text-purple-600 font-medium mb-1">Bio</p>
+          <div class="bg-gray-100 p-3 rounded-md text-sm">
+            <ng-container *ngIf="!modifierMode; else editBio">
+              {{ utilisateur.bio }}
+            </ng-container>
+            <ng-template #editBio>
+              <textarea [(ngModel)]="utilisateur.bio"
+                class="w-full border border-gray-300 rounded-md px-2 py-1"></textarea>
+            </ng-template>
+          </div>
+        </div>
+    
+        <div *ngIf="modifierMode" class="flex justify-end mt-4">
+          <button class="bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700"
+            (click)="enregistrerModification()"> Enregistrer</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

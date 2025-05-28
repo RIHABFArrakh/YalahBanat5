@@ -8,4 +8,3 @@ export interface Conductrice {
             user?: User;
     
   }
-  

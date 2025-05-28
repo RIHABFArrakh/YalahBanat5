@@ -6,20 +6,13 @@ import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { VoyageService, Voyage } from '../../../core/services/voyage.service';
+import { Reservation, Passager } from '../../../core/models/reservation.model';
 
 interface User {
   id: number;
   name: string;
   email: string;
   role: string;
-}
-
-interface Passager {
-  id: number;
-  nom: string;
-  address: string;
-  phone: string;
-  membershipDate: string;
 }
 
 @Component({
@@ -38,7 +31,7 @@ export class PassagerDashboardComponent implements OnInit {
   currentUserId: number = 0;
   voyages: Voyage[] = [];
   availableCities: string[] = [];
-  reservationHistory: any[] = [];
+  reservationHistory: Reservation[] = [];
   showDetails = false;
 
   passager: Passager | null = null;
@@ -50,6 +43,31 @@ export class PassagerDashboardComponent implements OnInit {
     places: 1,
     prix: 0
   };
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 5;
+
+  get paginatedReservations(): Reservation[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.reservationHistory.slice(start, start + this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.reservationHistory.length / this.pageSize);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
 
   constructor(
     private authService: AuthService,
@@ -80,7 +98,6 @@ export class PassagerDashboardComponent implements OnInit {
       }
     });
 
-    // Load available voyages
     this.loadVoyages();
   }
 
@@ -88,12 +105,7 @@ export class PassagerDashboardComponent implements OnInit {
     this.voyageService.getVoyages().subscribe({
       next: (voyages) => {
         this.voyages = voyages;
-        // Extract unique cities from voyages
         this.availableCities = this.extractUniqueCities(voyages);
-        console.log('Loaded voyages:', voyages);
-        // Debug: Check if our test voyage exists
-        const testVoyage = voyages.find(v => v.id === 12);
-        console.log('Test voyage (ID 12):', testVoyage);
       },
       error: (error: any) => {
         console.error('Error loading voyages:', error);
@@ -223,37 +235,8 @@ export class PassagerDashboardComponent implements OnInit {
       }
     });
   }
+
   toggleDetails() {
     this.showDetails = !this.showDetails;
   }
-  historiqueVoyages = [
-  {
-    depart: 'Casablanca',
-    destination: 'Rabat',
-    date: new Date('2025-04-15T14:30'),
-    distance: 90,
-    conducteur: 'Ahmed M.',
-    prix: 75,
-    evaluation: 5,
-  },
-  {
-    depart: 'Casablanca',
-    destination: 'Marrakech',
-    date: new Date('2025-03-22T09:00'),
-    distance: 240,
-    conducteur: 'Fatima L.',
-    prix: 150,
-    evaluation: 4,
-  },
-  {
-    depart: 'Rabat',
-    destination: 'Casablanca',
-    date: new Date('2025-03-10T16:45'),
-    distance: 90,
-    conducteur: 'Karim B.',
-    prix: 70,
-    evaluation: 0, // Non noté
-  },
-];
-
 }

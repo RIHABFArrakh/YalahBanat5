@@ -1,1 +1,73 @@
-<p>list-reservation works!</p>
+<div class="bg-white rounded-xl shadow-md p-6 mt-6">
+  <div class="flex items-center mb-4 text-purple-700 font-semibold text-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M17 20h5v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2h5m6-4v-6m-4 0h8" />
+    </svg>
+    La liste des Réservations
+  </div>
+  <p class="text-sm text-gray-500 mb-4">Gérez les demandes de réservation pour vos trajets</p>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full divide-y divide-gray-200 text-sm">
+    <thead *ngIf="reservations.length > 0">
+      <tr class="text-left text-gray-600">
+        <th class="px-4 py-2">Passager</th>
+        <th class="px-4 py-2">Trajet</th>
+        <th class="px-4 py-2">Places</th>
+        <th class="px-4 py-2">Statut</th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="reservations.length > 0; else noReservations" class="divide-y divide-gray-100">
+      <tr *ngFor="let res of reservations">
+        <td class="px-4 py-2">{{ res.passager.nom }}</td>
+        <td class="px-4 py-2 text-purple-700 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17.657 16.657L13.414 12l4.243-4.243M6.343 7.757L10.586 12 6.343 16.243" />
+          </svg>
+          {{ res.passager.address }}
+        </td>
+        <td class="px-4 py-2">{{ res.nombrePlaces }}</td>
+        <td class="px-4 py-2">
+          <span [ngClass]="{
+              'bg-green-100 text-green-700': res.statut === 'CONFIRMEE',
+              'bg-yellow-100 text-yellow-700': res.statut === 'EN_ATTENTE'
+            }" class="px-3 py-1 rounded-full text-xs font-semibold">
+            {{ getStatutLabel(res.statut) }}
+          </span>
+        </td>
+        <td class="px-4 py-2 space-x-2">
+          <ng-container *ngIf="res.statut === 'EN_ATTENTE'">
+            <button (click)="changerStatut(res, 'CONFIRMEE')"
+              class="px-3 py-1 text-green-600 border border-green-400 rounded-full hover:bg-green-50">
+              Accepter
+            </button>
+            <button (click)="changerStatut(res, 'ANNULEE')"
+              class="px-3 py-1 text-red-600 border border-red-400 rounded-full hover:bg-red-50">
+              Refuser
+            </button>
+          </ng-container>
+          <ng-container *ngIf="res.statut === 'CONFIRMEE'">
+            <button (click)="changerStatut(res, 'TERMINEE')"
+              class="px-3 py-1 text-blue-600 border border-blue-400 rounded-full hover:bg-blue-50">
+              Terminer
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- No reservations template -->
+  <ng-template #noReservations>
+    <div class="text-center py-6 text-gray-500 italic">
+      Aucune réservation trouvée pour ce voyage.
+    </div>
+  </ng-template>
+</div>
+
+</div>

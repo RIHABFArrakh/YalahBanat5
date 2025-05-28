@@ -26,7 +26,7 @@ export class ReservationService {
   }
 
   getReservationHistory(userId: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/history/${userId}`, {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/historique`, {
       headers: this.getHeaders()
     });
   }
@@ -67,7 +67,28 @@ export class ReservationService {
        headers: this.getHeaders()
   });
   }
+  getReservationsByConductrice(conductriceId: number): Observable<Reservation[]> {
+  return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/conductrice/${conductriceId}`, {
+    headers: this.getHeaders()
+  });
+  
+}
+
+  getReservationsOfVoyageByConductrice(conductriceId: number,voyageId: number): Observable<Reservation[]> {
+  return this.http.get<Reservation[]>(`${this.apiUrl}/api/reservations/conductrice/${conductriceId}/voyage/${voyageId}`, {
+    headers: this.getHeaders()
+  });
+  
+}
+updateStatutReservation(idReservation: number, nouveauStatut: string): Observable<Reservation> {
+ return this.http.patch<Reservation>(
+  `${this.apiUrl}/api/reservations/${idReservation}/statut/${nouveauStatut}`,
+  {}, // Empty body or actual body if needed
+  { headers: this.getHeaders() }
+);
+
+}
+
   
 }
 export { Reservation };
-

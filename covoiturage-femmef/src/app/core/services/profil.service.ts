@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Passager } from '../models/passager.model';
 import { Conductrice } from '../models/conductrice.model';
+import { UserProfileDTO } from '../../dto/user-profile.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfilService {
-  private apiUrl = 'localho/user'; // L'URL de l'API pour obtenir les profils
+  private apiUrl = 'http://localhost:8080/api/users'; // Use the correct base path from backend UserController
 
   constructor(private http: HttpClient) {}
 
-  getPassagerByUserId(userId: number): Observable<Passager> {
-    return this.http.get<Passager>(`${this.apiUrl}/passager/${userId}`);
-  }
+    private getHeaders(): HttpHeaders {
+      const token = localStorage.getItem('token');
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      });
+    }
 
-  getConductriceByUserId(userId: number): Observable<Conductrice> {
-    return this.http.get<Conductrice>(`${this.apiUrl}/conductrice/${userId}`);
+  getCurrentUserProfile(): Observable<UserProfileDTO> {
+    return this.http.get<UserProfileDTO>(`${this.apiUrl}/me`, {
+    headers: this.getHeaders()
+  });
   }
+  
+  updateProfile(dto: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/me`, dto, {
+    headers: this.getHeaders()
+  });
+}
+
 }

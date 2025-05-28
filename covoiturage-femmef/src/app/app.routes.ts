@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
 import { ReservationPageComponent } from './features/reservation/reservation-page/reservation-page.component';
 import { FinancesComponent } from './finances/finances.component';
+import { MonProfilComponent } from './mon-profil/mon-profil.component';
+import { ListReservationComponent } from './features/conductrice/list-reservation/list-reservation.component';
 
 export const routes: Routes = [
   {
@@ -35,8 +37,8 @@ export const routes: Routes = [
     data: { expectedRole: 'conductrice' }
   },
   {
-    path: 'reservation/:id',
-    component: ReservationPageComponent
+  path: 'reservations/:conductriceId/:voyageId',
+  component: ListReservationComponent
   },
   {
     path: 'finances',
@@ -49,4 +51,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/recherche/recherche.module').then(m => m.RechercheModule),
   },
+  {
+    path: 'mon-profil', // New route
+    component: MonProfilComponent,
+  
+  },
+  {
+     path: 'list-reservation',
+      component: ListReservationComponent },
 ];

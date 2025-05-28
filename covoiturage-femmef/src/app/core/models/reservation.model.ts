@@ -1,6 +1,15 @@
+export interface Passager {
+  id: number;
+  nom: string;
+  address: string;
+  phone: string;
+  membershipDate: string;
+}
+
 export interface Reservation {
   id: number;
-  voyageId: number;
-  passagerId: number;
+  dateReservation: string;
   statut: string;
+  passager: Passager;
+  nombrePlaces: number;
 }

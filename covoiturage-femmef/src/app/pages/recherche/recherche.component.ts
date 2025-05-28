@@ -5,17 +5,26 @@ import { ActivatedRoute } from '@angular/router';
 import { VoyageService } from '../../core/services/voyage.service';
 import { Voyage } from '../../core/models/voyage.model';
 import { ReservationService } from '../../core/services/reservation.service';
+import { ReservationPopupComponent } from '../../reservation-popup/reservation-popup.component';
 
 @Component({
   selector: 'app-recherche',
   standalone: true,
   templateUrl: './recherche.component.html',
   styleUrls: ['./recherche.component.css'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,ReservationPopupComponent],
 })
 export class RechercheComponent implements OnInit {
+   villesMaroc: string[] = [
+    'Casablanca', 'Rabat', 'Marrakech', 'Fès', 'Tanger',
+    'Agadir', 'Oujda', 'Meknès', 'Tétouan', 'Laâyoune',
+    'Nador', 'El Jadida', 'Khouribga', 'Béni Mellal', 'Safi',
+    'Errachidia', 'Kénitra', 'Guelmim', 'Ouarzazate', 'Taza'
+  ];
   form: FormGroup;
   minDateTime: string;
+  selectedVoyage: any = null;
+popupVisible = false;
   showResults = false;
   voyages:Voyage[] = [];
   trajets = [
@@ -146,5 +155,16 @@ export class RechercheComponent implements OnInit {
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR', options);
 }
+openPopup(voyage: any) {
+  this.selectedVoyage = voyage;
+  this.popupVisible = true;
+}
 
+closePopup() {
+  this.popupVisible = false;
+}
+confirmerReservation(voyage: any) {
+  console.log("Réservation confirmée pour :", voyage);
+  // Tu peux appeler ici ton service backend si nécessaire
+}
 }
