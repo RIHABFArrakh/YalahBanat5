@@ -1,5 +1,6 @@
 package com.covoabanat.covoiturage_femmes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    @JsonIgnore
     private String password;
     private String name;
     @Enumerated(EnumType.STRING)
@@ -24,6 +26,8 @@ public class User {
     private String activationToken;
     private boolean enabled = false;
     private LocalDate membershipDate;
-
+    private String telephone;
+    private String ville;
+    private String bio;
    
 }

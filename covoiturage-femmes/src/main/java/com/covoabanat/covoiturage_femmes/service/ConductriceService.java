@@ -16,8 +16,5 @@ public class ConductriceService {
         return conductriceRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Conductrice not found for user ID: " + userId));
     }
-   // public Conductrice findByEmail(String email) {
-      //  return conductriceRepository.findByEmail(email)
-              //  .orElseThrow(() -> new UsernameNotFoundException("Conductrice non trouvée"));
-    //}
+
 }

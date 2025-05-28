@@ -59,4 +59,5 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse<>("Mot de passe réinitialisé avec succès !", HttpStatus.OK.value()));
     }
 
+
 }

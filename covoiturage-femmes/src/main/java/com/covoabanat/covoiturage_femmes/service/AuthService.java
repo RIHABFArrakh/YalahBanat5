@@ -194,4 +194,6 @@ public class AuthService {
         user.setActivationToken(null);  // Remove token after use
         userRepository.save(user);
     }
+
+
 }

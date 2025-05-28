@@ -13,8 +13,14 @@ public class PassagerController {
     @Autowired
     private PassagerService passagerService;
 
-        @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}")
     public Passager getPassagerByUserId(@PathVariable Long userId) {
         return passagerService.getByUserId(userId);
     }
+
+    // ✅ Le PUT mapping doit être dans la classe
+    //@PutMapping("/user/{userId}")
+    //public Passager updatePassager(@PathVariable Long userId, @RequestBody @Valid PassagerUpdateRequest updateRequest) {
+        //return passagerService.updatePassagerProfile(userId, updateRequest);
+    //}
 }

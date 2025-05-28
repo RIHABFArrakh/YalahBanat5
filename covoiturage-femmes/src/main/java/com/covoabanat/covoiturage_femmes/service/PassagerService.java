@@ -15,4 +15,15 @@ public class PassagerService {
         return passagerRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Passager not found for user ID: " + userId));
     }
+    //public Passager updatePassagerProfile(Long userId, PassagerUpdateRequest updateRequest) {
+        //Passager passager = passagerRepository.findByUserId(userId)
+                //.orElseThrow(() -> new RuntimeException("Passager not found for user ID: " + userId));
+
+        //passager.setNom(updateRequest.getNom());
+       // passager.setAddress(updateRequest.getAddress());
+       // passager.setPhone(updateRequest.getPhone());
+
+       // return passagerRepository.save(passager);
+  //  }
 }
+

@@ -21,6 +21,7 @@ public class ConductriceController {
     public Conductrice getConductriceByUserId(@PathVariable Long userId) {
         return conductriceService.getByUserId(userId);
     }
+
     //@GetMapping("/me")
     // public ResponseEntity<Conductrice> getCurrentConductrice(@AuthenticationPrincipal UserDetails userDetails) {
     //    Conductrice conductrice = conductriceService.findByEmail(userDetails.getUsername());
