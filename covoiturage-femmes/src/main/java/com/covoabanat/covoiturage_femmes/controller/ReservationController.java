@@ -55,19 +55,22 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
     @PatchMapping("/{id}/statut/{statut}")
-    public ResponseEntity<Reservation> updateStatutReservation(
+    public ResponseEntity<?> updateStatutReservation(
             @PathVariable Long id,
             @PathVariable String statut) {
         try {
             Reservation updatedReservation = reservationService.updateStatut(id, statut.toUpperCase());
             return ResponseEntity.ok(updatedReservation);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Statut invalide
+            return ResponseEntity.badRequest().body("Statut invalide: " + statut);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la mise à jour: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur inattendue: " + e.getMessage());
         }
     }
-
     // Récupérer les réservations d'une conductrice pour un voyage spécifique
     @GetMapping("/conductrice/{conductriceId}/voyage/{voyageId}")
     public ResponseEntity<List<Reservation>> getReservationsByConductriceAndVoyage(

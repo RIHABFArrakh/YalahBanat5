@@ -42,6 +42,7 @@ export class RegisterConductriceComponent implements OnInit {
     this.loading = true;
     this.success = '';
     this.error = '';
+    console.log('Payload envoyé:', this.form.value);
 
     this.authService.registerConductrice(this.form.value).subscribe({
       next: (res) => {
@@ -52,6 +53,7 @@ export class RegisterConductriceComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
+        
         this.error = err.error?.message || 'Échec de l’inscription';
       }
     });

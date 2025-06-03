@@ -51,4 +51,7 @@ export class LandingPageComponent {
     }
   }
   
+  goToLogin() {
+    this.router.navigate(['/auth/login']);
+  }
 }

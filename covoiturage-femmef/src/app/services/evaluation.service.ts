@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Evaluation {
@@ -10,16 +10,23 @@ export interface Evaluation {
   commentaire?: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class EvaluationService {
 
-  private apiUrl = 'http://localhost:8080/api/evaluations'; // change selon ton backend
+  private apiUrl = 'http://localhost:8080/api/evaluations'; // à adapter
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
-  createEvaluation(evaluation: Evaluation): Observable<any> {
-    return this.http.post(this.apiUrl, evaluation);
+  ajouterEvaluation(data: any) {
+    return this.http.post(this.apiUrl, data, {
+      headers: this.getHeaders()
+    });
   }
 }

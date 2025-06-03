@@ -1,45 +1,61 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EvaluationService } from '../services/evaluation.service';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-evaluation',
   templateUrl: './evaluation.component.html',
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./evaluation.component.css']
 })
 export class EvaluationComponent implements OnInit {
 
-  @Input() voyageId!: number;
-  @Input() passagerId!: number;
-  @Input() conductriceId!: number;
+  evaluationForm!: FormGroup;
+  voyageId!: string;
+  passagerId!: string;
+  conductriceId!: string;
 
-  evaluation = {
-    voyageId: 0,
-    passagerId: 0,
-    conductriceId: 0,
-    note: 5,
-    commentaire: ''
-  };
-
-  message = '';
-
-  constructor(private evaluationService: EvaluationService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private evaluationService: EvaluationService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    // Initialiser les ids reçus de la page parente
-    this.evaluation.voyageId = this.voyageId;
-    this.evaluation.passagerId = this.passagerId;
-    this.evaluation.conductriceId = this.conductriceId;
+    this.voyageId = this.route.snapshot.paramMap.get('voyageId')!;
+    this.passagerId = this.route.snapshot.paramMap.get('passagerId')!;
+    this.conductriceId = this.route.snapshot.paramMap.get('conductriceId')!;
+
+    this.evaluationForm = this.fb.group({
+      note: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
+      commentaire: ['', Validators.required]
+    });
   }
 
-  submitEvaluation(): void {
-    if (this.evaluation.note < 1 || this.evaluation.note > 5) {
-      this.message = 'Veuillez sélectionner une note entre 1 et 5.';
-      return;
-    }
+  envoyerEvaluation(): void {
+    if (this.evaluationForm.invalid) return;
 
-    this.evaluationService.createEvaluation(this.evaluation).subscribe({
-      next: () => this.message = 'Merci pour votre évaluation !',
-      error: () => this.message = 'Erreur lors de l’envoi, veuillez réessayer.'
+    const evaluation = {
+      note: this.evaluationForm.value.note,
+      commentaire: this.evaluationForm.value.commentaire,
+      passagerId: this.passagerId,
+      conductriceId: this.conductriceId,
+      voyageId: this.voyageId
+    };
+
+    this.evaluationService.ajouterEvaluation(evaluation).subscribe({
+      next: () => {
+        this.toastr.success('Évaluation envoyée avec succès', 'Succès');
+        this.evaluationForm.reset();
+      },
+      error: () => {
+        this.toastr.error("Erreur lors de l'envoi de l'évaluation", 'Erreur');
+      }
     });
   }
 }

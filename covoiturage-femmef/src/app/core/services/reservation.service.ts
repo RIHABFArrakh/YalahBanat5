@@ -55,7 +55,10 @@ export class ReservationService {
     );
   }
   getHistoriqueReservations(idPassager: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/historique/${idPassager}`);
+    return this.http.get<Reservation[]>(`${this.apiUrl}/historique/${idPassager}`,
+       { headers: this.getHeaders() }
+    );
+
   }
     rechercherVoyages(depart: string, destination: string, dateDepart: string): Observable<Voyage[]> {
     const params = new HttpParams()
@@ -87,6 +90,10 @@ updateStatutReservation(idReservation: number, nouveauStatut: string): Observabl
   { headers: this.getHeaders() }
 );
 
+}
+
+changerStatut(id: number, statut: string): Observable<any> {
+  return this.http.patch(`http://localhost:8080/api/reservations/${id}/statut/${statut}`, {});
 }
 
   

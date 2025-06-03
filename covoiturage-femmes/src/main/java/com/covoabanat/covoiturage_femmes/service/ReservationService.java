@@ -1,12 +1,17 @@
 package com.covoabanat.covoiturage_femmes.service;
 
+import com.covoabanat.covoiturage_femmes.exceptions.email.SendingEmailException;
 import com.covoabanat.covoiturage_femmes.model.*;
 import com.covoabanat.covoiturage_femmes.repository.*;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Transactional
@@ -18,6 +23,8 @@ public class ReservationService {
     private final PassagerRepository passagerRepository;
     private final ReservationRepository reservationRepository;
     private final ConductriceRepository conductriceRepository;
+    @Autowired
+    private EmailService emailService;
 
 
     // Récupérer les réservations d’un passager
@@ -76,14 +83,73 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Réservation non trouvée"));
 
-        StatutReservation statut = StatutReservation.valueOf(statutStr); // Peut lancer IllegalArgumentException
+        StatutReservation statut = StatutReservation.valueOf(statutStr);
         reservation.setStatut(statut);
+
+        // Only proceed with email if passager and user exist
+        if (reservation.getPassager() != null && reservation.getPassager().getUser() != null) {
+            User passager = reservation.getPassager().getUser();
+            User conductrice = null;
+
+            if (reservation.getVoyage() != null &&
+                    reservation.getVoyage().getConductrice() != null &&
+                    reservation.getVoyage().getConductrice().getUser() != null) {
+                conductrice = reservation.getVoyage().getConductrice().getUser();
+            }
+
+            Map<String, String> emailVariables = new HashMap<>();
+            String templatePath = null;
+            String subject = null;
+
+            switch (statut) {
+                case ANNULEE:
+                    templatePath = "templates/emails/reject-reservation-email.html";
+                    subject = "Réservation refusée";
+                    break;
+
+                case CONFIRMEE:
+                    templatePath = "templates/emails/accept-reservation-email.html";
+                    subject = "Réservation acceptée";
+                    break;
+
+                case TERMINEE:
+                    if (conductrice == null) {
+                        throw new RuntimeException("Conductrice information missing for completed trip");
+                    }
+                    templatePath = "templates/emails/trip-completed-email.html";
+                    subject = "Voyage terminé";
+                    emailVariables.put("nomPassager", passager.getName());
+                    emailVariables.put("nomConductrice", conductrice.getName());
+                    String lienEvaluation = "http://localhost:4200/evaluation/"
+                            + reservation.getVoyage().getId() + "/"
+                            + reservation.getPassager().getId() + "/"
+                            + reservation.getVoyage().getConductrice().getId();
+                    emailVariables.put("lienEvaluation", lienEvaluation);
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (templatePath != null && subject != null) {
+                try {
+                    String emailContent = emailService.loadEmailTemplate(templatePath, emailVariables);
+                    emailService.sendEmail(passager.getEmail(), subject, emailContent);
+                } catch (MessagingException e) {
+                    // Log the error but don't fail the whole operation
+                    System.err.println("Failed to send email: " + e.getMessage());
+                } catch (Exception e) {
+                    System.err.println("Unexpected error sending email: " + e.getMessage());
+                }
+            }
+        }
 
         return reservationRepository.save(reservation);
     }
     public List<Reservation> getReservationsByConductriceAndVoyage(Long conductriceId, Long voyageId) {
         return reservationRepository.findByConductriceIdAndVoyageId(conductriceId, voyageId);
     }
+
 
 
 

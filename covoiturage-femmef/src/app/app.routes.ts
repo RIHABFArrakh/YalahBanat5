@@ -4,6 +4,8 @@ import { ReservationPageComponent } from './features/reservation/reservation-pag
 import { FinancesComponent } from './finances/finances.component';
 import { MonProfilComponent } from './mon-profil/mon-profil.component';
 import { ListReservationComponent } from './features/conductrice/list-reservation/list-reservation.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
+import { HowItWorksComponent } from './howitworks/howitworks.component';
 
 export const routes: Routes = [
   {
@@ -59,4 +61,10 @@ export const routes: Routes = [
   {
      path: 'list-reservation',
       component: ListReservationComponent },
+      { path: 'evaluation/:voyageId/:passagerId/:conductriceId', component: EvaluationComponent },
+      
+ {
+  path: '', redirectTo: 'home', pathMatch: 'full' },
+{ path: 'howitworks', component: HowItWorksComponent },
+
 ];

@@ -39,3 +39,22 @@
   color: white;
   font-weight: 500;
 }
+.logo2-link {
+  display: flex;
+  align-items: center;
+}
+.logo2-img {
+  height: 175px;      /* Match parent container's height */
+  width: auto;       /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure it doesn't distort */
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo2-img:hover {
+  transform: scale(1.05);
+}
+

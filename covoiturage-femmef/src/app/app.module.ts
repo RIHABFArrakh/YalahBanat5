@@ -14,6 +14,7 @@ import { ConductriceDashboardComponent } from './features/conductrice/conductric
 import { ListReservationComponent } from './features/conductrice/list-reservation/list-reservation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfilModule } from './core/models/profil.module';
+import { HowItWorksComponent } from './howitworks/howitworks.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { ProfilModule } from './core/models/profil.module';
     ConductriceDashboardComponent,
     ReservationPopupComponent,
     RechercheComponent,
+    HowItWorksComponent,
     
   ],
   imports: [

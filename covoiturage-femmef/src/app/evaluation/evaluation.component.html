@@ -1,17 +1,25 @@
-<div class="max-w-md p-4 border rounded-md shadow-sm">
-  <h3 class="text-lg font-semibold mb-3">Évaluer la conductrice</h3>
+<div class="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-md">
+  <h2 class="text-xl font-bold mb-4">Évaluer la conductrice</h2>
 
-  <label class="block mb-2">Note (1 à 5) :</label>
-  <select [(ngModel)]="evaluation.note" name="note" class="w-full mb-4 p-2 border rounded" required>
-    <option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{ n }}</option>
-  </select>
+  <form [formGroup]="evaluationForm" (ngSubmit)="envoyerEvaluation()">
+    <div class="mb-4">
+      <label class="block mb-1">Note (1 à 5)</label>
+      <input type="number" formControlName="note" min="1" max="5"
+             class="w-full border px-3 py-2 rounded"
+             placeholder="Ex : 4" />
+    </div>
 
-  <label class="block mb-2">Commentaire (optionnel) :</label>
-  <textarea [(ngModel)]="evaluation.commentaire" name="commentaire" rows="3" class="w-full mb-4 p-2 border rounded"></textarea>
+    <div class="mb-4">
+      <label class="block mb-1">Commentaire</label>
+      <textarea formControlName="commentaire" rows="4"
+                class="w-full border px-3 py-2 rounded"
+                placeholder="Votre avis..."></textarea>
+    </div>
 
-  <button (click)="submitEvaluation()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
-    Envoyer l’évaluation
-  </button>
-
-  <p class="mt-3 text-green-600" *ngIf="message">{{ message }}</p>
+    <button type="submit"
+            [disabled]="evaluationForm.invalid"
+            class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+      Envoyer lévaluation
+    </button>
+  </form>
 </div>
